@@ -34,13 +34,13 @@ GitHub API (for audio file counting)
 ### Installation
 
 ### Option 1: Web App
-Visit: **[ONLY-BEATS Web App](https://only-beats.netlify.app/)**
+Visit: **[ONLY-BEATS Web App](https://only-beats.github.io/only-beats/)**
 
 ---
 
 ### Option 2: Android APK
 Download from GitHub Releases:  
-[Only-Beats.apk](https://raw.githubusercontent.com/BinaryC0DE4U/only-beats/main/Only-Beats.apk)
+[Only-Beats.apk](https://raw.githubusercontent.com/only-beats/only-beats/main/Only-Beats.apk)
 
 ---
 
