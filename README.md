@@ -47,6 +47,6 @@ Download from GitHub Releases:
 Option 3: Scan QR Code to download the APK 
 
 <p align="left">
-  <img src="" alt="QR Code to download ONLY-BEATS APK" width="150">
+  <img src="qrcode.png" alt="QR Code to download ONLY-BEATS APK" width="150">
   <br>
 </p>
