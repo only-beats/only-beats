@@ -40,7 +40,8 @@ Visit: **[ONLY-BEATS Web App](https://only-beats.github.io/only-beats/)**
 
 ### Option 2: Android APK
 Download the APK directly:  
-**[Download Only Beats APK](https://raw.githubusercontent.com/only-beats/only-beats/main/OnlyBeats.apk)**
+**[Download Only Beats APK](https://raw.githubusercontent.com/only-beats/only-beats/main/Only%20Beats.apk)**
+
 ---
 
 Option 3: Scan QR Code to download the APK 
