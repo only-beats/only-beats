@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <title>Only-Beats</title>
-    <link rel="icon" href="logo1.png" type="image/x-icon">
+    <link rel="icon" href="logo.png" type="image/x-icon">
     <link rel="manifest" href="manifest.json">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1896,7 +1896,7 @@
                 <img src="svg/reply-big.svg" alt="Back">
             </div>
             <div class="logo">
-                <img src="logo1.png" class="logo-img" draggable="false"
+                <img src="logo.png" class="logo-img" draggable="false"
                     onerror="this.src='https://placehold.co/100x100/1DB954/black?text=OB'">
                 <div class="logo-text">
                     <h2>Only-Beats</h2> <!-- <p>DANY PATIL</p> -->
@@ -1952,7 +1952,7 @@
         <div class="player-inner">
             <div class="current-song" id="controlBox">
                 <div style="display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; padding-right: 36px;">
-                    <img id="playerCover" src="logo1.png" draggable="false"
+                    <img id="playerCover" src="logo.png" draggable="false"
                         style="flex-shrink: 0; width: 48px; height: 48px; object-fit: cover; border-radius: 4px;">
                     <div class="song-info">
                         <h3 id="playerTitle">
@@ -2047,7 +2047,7 @@
             <div
                 style="display: flex; align-items: left; justify-content: left; gap: 14px; margin-bottom: 20px; margin-left: 18px;">
                 <!-- Logo on the left -->
-                <img src="logo1.png" alt="Only-Beats"
+                <img src="logo.png" alt="Only-Beats"
                     style="width: 50px; height: 50px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
 
                 <!-- Text block on the right -->
@@ -2126,7 +2126,7 @@
                     title: song.title,
                     artist: song.artist,
                     album: song.album || '',
-                    cover_url: song.cover_url || 'logo1.png',
+                    cover_url: song.cover_url || 'logo.png',
                     url: song.url,
                     lyricsUrl: song.lyricsUrl || '',   // ✅ ADD THIS
                     // optionally store folder info
@@ -2351,7 +2351,7 @@
                             ...song,
                             id: song.id || index,
                             album: song.album || folder.name,
-                            cover_url: song.cover || 'logo1.png',
+                            cover_url: song.cover || 'logo.png',
                             folderName: folder.name,
                             folderId: folder.id  // IMPORTANT: Store folder ID
                         }));
@@ -2478,7 +2478,7 @@
                     ...song,
                     id: song.id || index,
                     album: song.album || folder.name,
-                    cover_url: song.cover_url || 'logo1.png',
+                    cover_url: song.cover_url || 'logo.png',
                     lyricsUrl: song.lyricsUrl || ''
                 }));
                 currentSongIndex = -1; // reset
@@ -2550,7 +2550,7 @@
                         ...song,
                         id: song.id || index,
                         album: song.album || folder.name,
-                        cover_url: song.cover || 'logo1.png'
+                        cover_url: song.cover || 'logo.png'
                     }));
                     allSongs.sort((a, b) => (b.id || 0) - (a.id || 0));
                     renderSongs(allSongs, false);
@@ -2574,7 +2574,7 @@
                 } else {
                     document.getElementById('playerTitle').innerText = 'Only-Beats';
                     document.getElementById('playerArtist').innerText = 'BY - DHANANJAY PATIL';
-                    document.getElementById('playerCover').src = 'logo1.png';
+                    document.getElementById('playerCover').src = 'logo.png';
                     updatePlayPauseIcons(false);
                     updateIndicatorIcon(); // Add this line
 
@@ -2607,16 +2607,16 @@
                 const song = allSongs[currentSongIndex];
                 document.getElementById('playerTitle').innerText = song.title;
                 document.getElementById('playerArtist').innerText = song.artist;
-                document.getElementById('playerCover').src = song.cover_url || 'logo1.png';
+                document.getElementById('playerCover').src = song.cover_url || 'logo.png';
             } else if (currentPlayingSong) {
                 document.getElementById('playerTitle').innerText = currentPlayingSong.title;
                 document.getElementById('playerArtist').innerText = currentPlayingSong.artist;
-                document.getElementById('playerCover').src = currentPlayingSong.cover || 'logo1.png';
+                document.getElementById('playerCover').src = currentPlayingSong.cover || 'logo.png';
             } else {
                 // 👇 No song is loaded – reset to default
                 document.getElementById('playerTitle').innerText = 'Only-Beats';
                 document.getElementById('playerArtist').innerText = 'BY - DHANANJAY PATIL';
-                document.getElementById('playerCover').src = 'logo1.png';
+                document.getElementById('playerCover').src = 'logo.png';
             }
             updateIndicatorIcon(); // This will now show the Download APP icon
             window.location.hash = '';  // Clear the hash
@@ -2670,7 +2670,7 @@
                 row.innerHTML = `
     <div class="song-left">
         <div class="track-number">${(idx + 1).toString().padStart(2, '0')}</div>
-        <img class="song-cover search-cover" src="${song.cover_url || 'logo1.png'}" onerror="this.src='logo1.png'">
+        <img class="song-cover search-cover" src="${song.cover_url || 'logo.png'}" onerror="this.src='logo.png'">
         <div class="song-details">
             <div class="song-title">${escapeHtml(song.title)}</div>
             <div class="song-artist">${escapeHtml(song.artist)}</div>
@@ -2716,7 +2716,7 @@
                         ...song,
                         id: song.id || index,
                         album: song.album || folder.name,
-                        cover_url: song.cover || 'logo1.png'
+                        cover_url: song.cover || 'logo.png'
                     }));
                     allSongs.sort((a, b) => (b.id || 0) - (a.id || 0));
 
@@ -2731,12 +2731,12 @@
                         updatePlayPauseIcons(true);
                         document.getElementById('playerTitle').innerText = songToPlay.title;
                         document.getElementById('playerArtist').innerText = songToPlay.artist;
-                        document.getElementById('playerCover').src = songToPlay.cover_url || 'logo1.png';
+                        document.getElementById('playerCover').src = songToPlay.cover_url || 'logo.png';
                         currentPlayingSong = {
                             url: songToPlay.url,
                             title: songToPlay.title,
                             artist: songToPlay.artist,
-                            cover: songToPlay.cover_url || 'logo1.png',
+                            cover: songToPlay.cover_url || 'logo.png',
                             currentTime: 0
                         };
                         updateIndicatorIcon(); // ✅ Add this line
@@ -2759,12 +2759,12 @@
                         updatePlayPauseIcons(true);
                         document.getElementById('playerTitle').innerText = selectedSong.title;
                         document.getElementById('playerArtist').innerText = selectedSong.artist;
-                        document.getElementById('playerCover').src = selectedSong.cover_url || 'logo1.png';
+                        document.getElementById('playerCover').src = selectedSong.cover_url || 'logo.png';
                         currentPlayingSong = {
                             url: selectedSong.url,
                             title: selectedSong.title,
                             artist: selectedSong.artist,
-                            cover: selectedSong.cover_url || 'logo1.png',
+                            cover: selectedSong.cover_url || 'logo.png',
                             currentTime: 0
                         };
                         updateIndicatorIcon(); // ✅ Add this line
@@ -2811,12 +2811,12 @@
                     updatePlayPauseIcons(true);
                     document.getElementById('playerTitle').innerText = song.title;
                     document.getElementById('playerArtist').innerText = song.artist;
-                    document.getElementById('playerCover').src = song.cover_url || 'logo1.png';
+                    document.getElementById('playerCover').src = song.cover_url || 'logo.png';
                     currentPlayingSong = {
                         url: song.url,
                         title: song.title,
                         artist: song.artist,
-                        cover: song.cover_url || 'logo1.png',
+                        cover: song.cover_url || 'logo.png',
                         currentTime: 0
                     };
 
@@ -3022,7 +3022,7 @@
             audio.src = song.url;
             document.getElementById('playerTitle').innerText = song.title;
             document.getElementById('playerArtist').innerText = song.artist;
-            document.getElementById('playerCover').src = song.cover_url || 'logo1.png';
+            document.getElementById('playerCover').src = song.cover_url || 'logo.png';
             updatePlayPauseIcons(false);
             updateActiveHighlight();
             updateIndicatorIcon(); // Add this line
@@ -3030,7 +3030,7 @@
                 url: song.url,
                 title: song.title,
                 artist: song.artist,
-                cover: song.cover_url || 'logo1.png',
+                cover: song.cover_url || 'logo.png',
                 currentTime: 0
             };
             lyricsDisplay.style.display = 'none';
@@ -3067,7 +3067,7 @@
             if (!modal.classList.contains('active')) return;
 
             // Update modal content
-            modalCover.src = song.cover_url || 'logo1.png';
+            modalCover.src = song.cover_url || 'logo.png';
             modalTitle.innerText = song.title;
             modalArtist.innerText = song.artist;
             modalAlbum.innerText = song.album || currentFolder?.name || 'BY - DHANANJAY PATIL';
@@ -3132,7 +3132,7 @@
                 row.innerHTML = `
         <div class="song-left">
             <div class="track-number">${(idx + 1).toString().padStart(2, '0')}</div>
-            <img class="song-cover" src="${song.cover_url || 'logo1.png'}" onerror="this.src='logo1.png'">
+            <img class="song-cover" src="${song.cover_url || 'logo.png'}" onerror="this.src='logo.png'">
             <div class="song-details">
                 <div class="song-title">${escapeHtml(song.title)}</div>
                 <div class="song-artist">${escapeHtml(song.artist)}</div>
@@ -3265,7 +3265,7 @@
 
                 document.getElementById('playerTitle').innerText = nextSong.title;
                 document.getElementById('playerArtist').innerText = nextSong.artist;
-                document.getElementById('playerCover').src = nextSong.cover_url || 'logo1.png';
+                document.getElementById('playerCover').src = nextSong.cover_url || 'logo.png';
 
                 audio.src = srcToUse;                         // <-- use srcToUse instead of nextSong.url
                 audio.play().catch(e => console.log('Play error:', e));
@@ -3275,7 +3275,7 @@
                     url: nextSong.url,
                     title: nextSong.title,
                     artist: nextSong.artist,
-                    cover: nextSong.cover_url || 'logo1.png',
+                    cover: nextSong.cover_url || 'logo.png',
                     currentTime: 0
                 };
 
@@ -3370,7 +3370,7 @@
 
             if (currentSongIndex >= 0 && allSongs[currentSongIndex]) {
                 const s = allSongs[currentSongIndex];
-                modalCover.src = s.cover_url || 'logo1.png';
+                modalCover.src = s.cover_url || 'logo.png';
                 modalTitle.innerText = s.title;
                 modalArtist.innerText = s.artist;
                 modalAlbum.innerText = s.album || currentFolder?.name || 'BY - DHANANJAY PATIL';
@@ -3380,7 +3380,7 @@
                 copyUrlText.innerText = 'Copy download URL';
                 modal.classList.add('active');
             } else if (currentPlayingSong && currentPlayingSong.title !== 'Only-Beats') {
-                modalCover.src = currentPlayingSong.cover || 'logo1.png';
+                modalCover.src = currentPlayingSong.cover || 'logo.png';
                 modalTitle.innerText = currentPlayingSong.title;
                 modalArtist.innerText = currentPlayingSong.artist;
                 modalAlbum.innerText = currentFolder?.name || 'Only-Beats';
@@ -3578,7 +3578,7 @@
                     artist: song.artist || 'BY - DHANANJAY PATIL',
                     album: song.album || currentFolder?.name || 'Only-Beats',
                     artwork: [
-                        { src: song.cover_url || 'logo1.png', sizes: '512x512', type: 'image/png' }
+                        { src: song.cover_url || 'logo.png', sizes: '512x512', type: 'image/png' }
                     ]
                 });
             }
