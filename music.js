@@ -2025,6 +2025,33 @@ const SONGS_DATABASE = [
         "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02707ea5b8023ac77d31756ed4",
         "url": "https://raw.githubusercontent.com/only-beats/Forever-in-Sync/main/Subhanallah.mp3",
         "lyricsUrl": "https://lrclib.net/api/search?track_name=Subhanallah&artist_name=Sreeram&album=Yeh%20Jawaani%20Hai%20Deewani"
+    },
+     {
+        "id": 226,
+        "title": "Isharon Isharon Men Dil Lenewale",
+        "artist": "Asha Bhosle, Mohammed Rafi",
+        "album": "Kashmir Ki Kali",
+        "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e0286f1ce790b11125f1cb98306",
+        "url": "https://raw.githubusercontent.com/only-beats/Forever-in-Sync/main/Isharon%20Isharon%20Men%20Dil%20Lenewale.mp3",
+        "lyricsUrl": "https://lrclib.net/api/search?track_name=Isharon%20Isharon%20Men%20Dil%20Lenewale&artist_name=Asha%20Bhosle%2C%20Mohammed%20Rafi&album=Kashmir%20Ki%20Kali"
+    },
+    {
+        "id": 267,
+        "title": "Ratiyaan",
+        "artist": "Hansika Pareek, Sagnik Kolay, Soham Majumdar",
+        "album": "Ratiyaan",
+        "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02e248dcc39f61806135554dbb",
+        "url": "https://raw.githubusercontent.com/only-beats/Forever-in-Sync/main/Ratiyaan.mp3",
+        "lyricsUrl": "https://lrclib.net/api/search?track_name=Ratiyaan&artist_name=Hansika%20Pareek%2C%20Sagnik%20Kolay%2C%20Soham%20Majumdar&album=Ratiyaan"
+    },
+    {
+        "id": 268,
+        "title": "Sur Niragas Ho",
+        "artist": "Shankar Mahadevan, Anandi Joshi",
+        "album": "Katyar Kaljat Ghusli",
+        "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e022399ea89cf12d2ad388bfe30",
+        "url": "https://raw.githubusercontent.com/only-beats/Forever-in-Sync/main/Sur%20Niragas%20Ho.mp3",
+        "lyricsUrl": "https://lrclib.net/api/search?track_name=Sur%20Niragas%20Ho&artist_name=Anandi%20Joshi%2C%20Shankar%20Mahadevan&album=Katyar%20Kaljat%20Ghusli"
     }
 ];
 
