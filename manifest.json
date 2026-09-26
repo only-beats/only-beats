@@ -1,0 +1,31 @@
+{
+  "background_color": "#ffffff",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "Only Beats",
+  "orientation": "any",
+  "scope": "https://only-beats.github.io/only-beats/",
+  "short_name": "OnlyBeats",
+  "start_url": "https://only-beats.github.io/only-beats/",
+  "theme_color": "#1db954",
+  "icons": [
+    {
+      "src": "https://only-beats.github.io/only-beats/logo.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "isSquare": true,
+      "isPng": true,
+      "isWebp": false,
+      "isJpg": false,
+      "width": 512,
+      "is512x512": true,
+      "is256x256": false,
+      "is192x192": false
+    }
+  ],
+  "description": "only-beats - A Modern Music Player Web App",
+  "lang": "en",
+  "categories": [
+    "music"
+  ]
+}
