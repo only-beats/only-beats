@@ -2,10 +2,10 @@
   "background_color": "#050505",
   "dir": "ltr",
   "display": "standalone",
-  "name": "Only Beats",
+  "name": "only-beats",
   "orientation": "any",
   "scope": "https://only-beats.github.io/only-beats/",
-  "short_name": "Only Beats",
+  "short_name": "only-beats",
   "start_url": "https://only-beats.github.io/only-beats/",
   "theme_color": "#050505",
   "icons": [
