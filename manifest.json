@@ -1,13 +1,13 @@
 {
-  "background_color": "#ffffff",
+  "background_color": "#050505",
   "dir": "ltr",
-  "display": "fullscreen",
+  "display": "standalone",
   "name": "Only Beats",
   "orientation": "any",
   "scope": "https://only-beats.github.io/only-beats/",
   "short_name": "Only Beats",
   "start_url": "https://only-beats.github.io/only-beats/",
-  "theme_color": "#1db954",
+  "theme_color": "#050505",
   "icons": [
     {
       "src": "https://only-beats.github.io/only-beats/logo.png",
