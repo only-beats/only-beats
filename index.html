@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <title>ONLY-BEATS</title>
     <link rel="icon" href="logo.png" type="image/x-icon">
+    <link rel="manifest" href="manifest.json">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
@@ -39,6 +40,7 @@
 
         ::-webkit-scrollbar-thumb {
             background: #1DB954;
+            border-radius: 10px;
             border-radius: 10px;
         }
 
@@ -3987,7 +3989,7 @@
             // Cache expired or forceRefresh = true - fetch from GitHub
             try {
                 const response = await fetch(
-                    'https://api.github.com/repos/BinaryC0DE4U/Forever-in-Sync/git/trees/main?recursive=1'
+                    'https://api.github.com/repos/only-beats/Forever-in-Sync/git/trees/main?recursive=1'
                 );
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 const data = await response.json();
@@ -4075,6 +4077,20 @@
                 openFolder(folder);
             }
         });
+
+
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
 
     </script>
 </body>
