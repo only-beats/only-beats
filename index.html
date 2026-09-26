@@ -1963,7 +1963,7 @@
                 </div>
                 <div class="click-indicator" id="clickIndicator">
                     <div style="display: flex; align-items: center; justify-content: center; gap: 6px; height: 50px;">
-                        <a href="https://github.com/only-beats/only-beats/blob/main/Only%20Beats.apk"
+                        <a href="https://github.com/only-beats/only-beats/raw/refs/heads/main/Only%20Beats.apk"
                             id="downloadLink" target="_blank" rel="noopener noreferrer"
                             style="display: flex; align-items: center; justify-content: center; text-decoration: none;">
                             <img src="svg/Download App.svg" alt="App Icon" id="indicatorIcon"
@@ -2159,7 +2159,7 @@
         }
 
         // Website URL
-        const DOWNLOAD_WEBSITE_URL = "https://only-beats-web.netlify.app/";
+        const DOWNLOAD_WEBSITE_URL = "https://only-beats.github.io/only-beats/";
 
         const foldersView = document.getElementById('foldersView');
         const songsView = document.getElementById('songsView');
@@ -2881,8 +2881,7 @@
                 indicatorIcon.style.filter = 'none';
                 indicatorLabel.style.display = 'block';
                 indicatorLabel.textContent = 'Download APP';
-                downloadLink.href = 'https://github.com/only-beats/only-beats/blob/main/Only%20Beats.apk';
-                // https://github.com/only-beats/only-beats/blob/main/Only%20Beats.apk
+                downloadLink.href = 'https://github.com/only-beats/only-beats/raw/refs/heads/main/Only%20Beats.apk';
                 downloadLink.style.pointerEvents = 'auto';
 
                 // 👇 Hide the folder icon when default
