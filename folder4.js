@@ -1564,7 +1564,16 @@ const SONGS_DATABASE = [
         "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02cae8942a913237e3839b37b4",
         "url": "https://raw.githubusercontent.com/only-beats/Forever-in-Sync/main/Mere%20Nishaan.mp3",
         "lyricsUrl": "https://lrclib.net/api/search?track_name=Mere%20Nishaan&artist_name=Kailash%20Kher%2C%20Meet%20Bros%20Anjjan&album=Oh%20My%20God"
-    }
+    },
+        {
+        "id": 175,
+        "title": "Ratiyaan",
+        "artist": "Hansika Pareek, Sagnik Kolay, Soham Majumdar",
+        "album": "Ratiyaan",
+        "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02e248dcc39f61806135554dbb",
+        "url": "https://raw.githubusercontent.com/only-beats/Forever-in-Sync/main/Ratiyaan.mp3",
+        "lyricsUrl": "https://lrclib.net/api/search?track_name=Ratiyaan&artist_name=Hansika%20Pareek%2C%20Sagnik%20Kolay%2C%20Soham%20Majumdar&album=Ratiyaan"
+    },
 ];
 // App settings
 const APP_SETTINGS = {
