@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-    <title>ONLY-BEATS</title>
+    <title>Only-Beats</title>
     <link rel="icon" href="logo.png" type="image/x-icon">
     <link rel="manifest" href="manifest.json">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1899,7 +1899,7 @@
                 <img src="logo.png" class="logo-img" draggable="false"
                     onerror="this.src='https://placehold.co/100x100/1DB954/black?text=OB'">
                 <div class="logo-text">
-                    <h2>ONLY-BEATS</h2> <!-- <p>DANY PATIL</p> -->
+                    <h2>Only-Beats</h2> <!-- <p>DANY PATIL</p> -->
                     <div
                         style="display: flex; align-items: center; gap: 6px; font-size: 10px; color: #888; margin-top: 2px;">
                         <span>Total Audio :</span>
@@ -1956,7 +1956,7 @@
                         style="flex-shrink: 0; width: 48px; height: 48px; object-fit: cover; border-radius: 4px;">
                     <div class="song-info">
                         <h3 id="playerTitle">
-                            <span style="overflow: hidden; text-overflow: ellipsis;">ONLY-BEATS</span>
+                            <span style="overflow: hidden; text-overflow: ellipsis;">Only-Beats</span>
                         </h3>
                         <p id="playerArtist">BY - DHANANJAY PATIL</p>
                     </div>
@@ -2047,13 +2047,13 @@
             <div
                 style="display: flex; align-items: left; justify-content: left; gap: 14px; margin-bottom: 20px; margin-left: 18px;">
                 <!-- Logo on the left -->
-                <img src="logo.png" alt="ONLY-BEATS"
+                <img src="logo.png" alt="Only-Beats"
                     style="width: 50px; height: 50px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
 
                 <!-- Text block on the right -->
                 <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 1px;">
                     <h2 style="color: #1DB954; font-size: 22px; font-weight: 700; margin: 0; line-height: 1.2;">
-                        ONLY-BEATS</h2>
+                        Only-Beats</h2>
                     <p style="color: #1DB954; font-size: 12px; font-weight: 500; margin: 0; letter-spacing: 0.3px;">BY -
                         DHANANJAY PATIL</p>
                 </div>
@@ -2159,7 +2159,7 @@
         }
 
         // Website URL
-        const DOWNLOAD_WEBSITE_URL = "https://only-beats-web.netlify.app/";
+        const DOWNLOAD_WEBSITE_URL = "https://only-beats.github.io/only-beats/";
 
         const foldersView = document.getElementById('foldersView');
         const songsView = document.getElementById('songsView');
@@ -2572,7 +2572,7 @@
                         updateIndicatorIcon(); // Add this line
                     }).catch(e => console.log("Playback restore failed:", e));
                 } else {
-                    document.getElementById('playerTitle').innerText = 'ONLY-BEATS';
+                    document.getElementById('playerTitle').innerText = 'Only-Beats';
                     document.getElementById('playerArtist').innerText = 'BY - DHANANJAY PATIL';
                     document.getElementById('playerCover').src = 'logo.png';
                     updatePlayPauseIcons(false);
@@ -2614,7 +2614,7 @@
                 document.getElementById('playerCover').src = currentPlayingSong.cover || 'logo.png';
             } else {
                 // 👇 No song is loaded – reset to default
-                document.getElementById('playerTitle').innerText = 'ONLY-BEATS';
+                document.getElementById('playerTitle').innerText = 'Only-Beats';
                 document.getElementById('playerArtist').innerText = 'BY - DHANANJAY PATIL';
                 document.getElementById('playerCover').src = 'logo.png';
             }
@@ -3379,11 +3379,11 @@
                 copySuccessIcon.style.display = 'none';
                 copyUrlText.innerText = 'Copy download URL';
                 modal.classList.add('active');
-            } else if (currentPlayingSong && currentPlayingSong.title !== 'ONLY-BEATS') {
+            } else if (currentPlayingSong && currentPlayingSong.title !== 'Only-Beats') {
                 modalCover.src = currentPlayingSong.cover || 'logo.png';
                 modalTitle.innerText = currentPlayingSong.title;
                 modalArtist.innerText = currentPlayingSong.artist;
-                modalAlbum.innerText = currentFolder?.name || 'ONLY-BEATS';
+                modalAlbum.innerText = currentFolder?.name || 'Only-Beats';
                 currentModalSongUrl = currentPlayingSong.url;
                 copyUrlIcon.style.display = 'inline-block';
                 copySuccessIcon.style.display = 'none';
@@ -3574,9 +3574,9 @@
         function updateLockscreenInfo(song) {
             if ('mediaSession' in navigator && song) {
                 navigator.mediaSession.metadata = new MediaMetadata({
-                    title: song.title || 'ONLY-BEATS',
+                    title: song.title || 'Only-Beats',
                     artist: song.artist || 'BY - DHANANJAY PATIL',
-                    album: song.album || currentFolder?.name || 'ONLY-BEATS',
+                    album: song.album || currentFolder?.name || 'Only-Beats',
                     artwork: [
                         { src: song.cover_url || 'logo.png', sizes: '512x512', type: 'image/png' }
                     ]
@@ -3852,7 +3852,7 @@
             let song = null;
             if (currentSongIndex >= 0 && allSongs[currentSongIndex]) {
                 song = allSongs[currentSongIndex];
-            } else if (currentPlayingSong && currentPlayingSong.title !== 'ONLY-BEATS') {
+            } else if (currentPlayingSong && currentPlayingSong.title !== 'Only-Beats') {
                 song = allSongs.find(s => s.url === currentPlayingSong.url);
                 if (!song) song = currentPlayingSong;
             }
