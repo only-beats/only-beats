@@ -65,6 +65,12 @@ const FOLDERS_DATABASE = [
         songsFile: "folder11.js",
         folderCover: "https://mosaic.scdn.co/300/ab67616d00001e0273c3757cfaff3551a07b2736ab67616d00001e02846220b6d40efb6183cd8cf4ab67616d00001e029626d405a1dee0abcc5a795aab67616d00001e02d28e53a2bea614af03cc5892"
     },
+        {
+        id: 12,
+        name: "Anuv Jain",
+        songsFile: "folder12.js",
+        folderCover: "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e0225fa2d19b2363a9520a34409"
+    },
 
 
 
