@@ -3970,7 +3970,7 @@
         // ============ AUDIO FILE COUNTER ============
         const CACHE_KEY = 'audioCount';
         const CACHE_TIME_KEY = 'audioCountTime';
-        const ONE_HOUR = 3600000; // 60 * 60 * 1000 ms
+        const ONE_HOUR = 3600; // 60 * 60 * 1000 ms
 
         async function getAudioCount(forceRefresh = false) {
             const cachedCount = localStorage.getItem(CACHE_KEY);
