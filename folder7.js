@@ -109,3 +109,9 @@ const SONGS_DATABASE = [
     }
 ];
 
+// App settings
+const APP_SETTINGS = {
+    appName: "ONLY-BEATS",
+    playlistName: "All Telugu Mix",
+    defaultCover: "logo.png"
+};
