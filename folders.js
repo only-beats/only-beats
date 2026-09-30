@@ -71,6 +71,13 @@ const FOLDERS_DATABASE = [
         songsFile: "folder12.js",
         folderCover: "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e0225fa2d19b2363a9520a34409"
     },
+        {
+        id: 13,
+        name: "Asha Bhosle",
+        songsFile: "folder13.js",
+        folderCover: "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84971313bd19d2897dcb9949f5"
+    },
+
 
 
 
