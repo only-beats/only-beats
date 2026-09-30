@@ -1574,6 +1574,15 @@ const SONGS_DATABASE = [
         "url": "https://raw.githubusercontent.com/only-beats/Forever-in-Sync/main/Ratiyaan.mp3",
         "lyricsUrl": "https://lrclib.net/api/search?track_name=Ratiyaan&artist_name=Hansika%20Pareek%2C%20Sagnik%20Kolay%2C%20Soham%20Majumdar&album=Ratiyaan"
     },
+        {
+        "id": 176,
+        "title": "Kaahe Mose",
+        "artist": "Garvit-Priyansh",
+        "album": "Kaahe Mose",
+        "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e021f2c1b67a525cb5b6ccbb7fd",
+        "url": "https://raw.githubusercontent.com/only-beats/Forever-in-Sync/main/Kaahe%20Mose.mp3",
+        "lyricsUrl": "https://lrclib.net/api/search?track_name=Kaahe%20Mose&artist_name=Garvit-Priyansh&album=Kaahe%20Mose"
+    }
 ];
 // App settings
 const APP_SETTINGS = {
