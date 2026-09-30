@@ -160,6 +160,114 @@ const SONGS_DATABASE = [
         "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e029820c90de1e0d16e69665a6d",
         "url": "https://raw.githubusercontent.com/only-beats/Forever-in-Sync/main/Kisi%20Nazar%20Ko%20Tera%20Intezar.mp3",
         "lyricsUrl": "https://lrclib.net/api/search?track_name=Kisi%20Nazar%20Ko%20Tera%20Intezar&artist_name=Asha%20Bhosle%2C%20Bhupinder%20Singh&album=Aitbaar"
+    },
+      {
+        "id": 19,
+        "title": "Kitaben Bahut Si",
+        "artist": "Asha Bhosle, Vinod Rathod",
+        "album": "Baazigar",
+        "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02dd80ae5413c53b309946196a",
+        "url": "https://raw.githubusercontent.com/only-beats/Forever-in-Sync/main/Kitaben%20Bahut%20Si.mp3",
+        "lyricsUrl": "https://lrclib.net/api/search?track_name=Kitaben%20Bahut%20Si&artist_name=Asha%20Bhosle%2C%20Vinod%20Rathod&album=Baazigar"
+    },
+    {
+        "id": 20,
+        "title": "Kya Dekhte Ho",
+        "artist": "Asha Bhosle, Mohammed Rafi",
+        "album": "Qurbani",
+        "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02ce5864d4767fda884fdf6349",
+        "url": "https://raw.githubusercontent.com/only-beats/Forever-in-Sync/main/Kya%20Dekhte%20Ho.mp3",
+        "lyricsUrl": "https://lrclib.net/api/search?track_name=Kya%20Dekhte%20Ho&artist_name=Asha%20Bhosle%2C%20Mohammed%20Rafi&album=Qurbani"
+    },
+    {
+        "id": 21,
+        "title": "Le Gayi",
+        "artist": "Uttam Singh, Asha Bhosle, Anand Bakshi",
+        "album": "Dil To Pagal Hai",
+        "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02b96494dc6eaedc90919365df",
+        "url": "https://raw.githubusercontent.com/only-beats/Forever-in-Sync/main/Le%20Gayi.mp3",
+        "lyricsUrl": "https://lrclib.net/api/search?track_name=Le%20Gayi&artist_name=Uttam%20Singh%2C%20Asha%20Bhosle%2C%20Anand%20Bakshi&album=Dil%20To%20Pagal%20Hai"
+    },
+    {
+        "id": 22,
+        "title": "Mera Sanam Sabse Pyara Hai",
+        "artist": "Asha Bhosle, Kumar Sanu",
+        "album": "Dil Ka Kya Kasoor",
+        "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02c306c2c18583509c1a1f3dac",
+        "url": "https://raw.githubusercontent.com/only-beats/Forever-in-Sync/main/Mera%20Sanam%20Sabse%20Pyara%20Hai.mp3",
+        "lyricsUrl": "https://lrclib.net/api/search?track_name=Mera%20Sanam%20Sabse%20Pyara%20Hai&artist_name=Asha%20Bhosle%2C%20Kumar%20Sanu&album=Dil%20Ka%20Kya%20Kasoor"
+    },
+    {
+        "id": 23,
+        "title": "Meri Wafayen Yaad Karoge",
+        "artist": "Kumar Sanu, Asha Bhosle",
+        "album": "Sainik",
+        "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02f7ede2a921c0a0b041db805d",
+        "url": "https://raw.githubusercontent.com/only-beats/Forever-in-Sync/main/Meri%20Wafayen%20Yaad%20Karoge.mp3",
+        "lyricsUrl": "https://lrclib.net/api/search?track_name=Meri%20Wafayen%20Yaad%20Karoge&artist_name=Kumar%20Sanu%2C%20Asha%20Bhosle&album=Sainik"
+    },
+    {
+        "id": 24,
+        "title": "Milne Ki Tum Koshish Karna",
+        "artist": "Asha Bhosle, Kumar Sanu",
+        "album": "Dil Ka Kya Kasoor",
+        "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02c306c2c18583509c1a1f3dac",
+        "url": "https://raw.githubusercontent.com/only-beats/Forever-in-Sync/main/Milne%20Ki%20Tum%20Koshish%20Karna.mp3",
+        "lyricsUrl": "https://lrclib.net/api/search?track_name=Milne%20Ki%20Tum%20Koshish%20Karna&artist_name=Asha%20Bhosle%2C%20Kumar%20Sanu&album=Dil%20Ka%20Kya%20Kasoor"
+    },
+    {
+        "id": 25,
+        "title": "O Haseena Zulfonwale Jane Jahan",
+        "artist": "Asha Bhosle, Mohammed Rafi, R. D. Burman",
+        "album": "Teesri Manzil",
+        "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02c016607af0377c3e5cb92e5f",
+        "url": "https://raw.githubusercontent.com/only-beats/Forever-in-Sync/main/O%20Haseena%20Zulfonwale%20Jane%20Jahan.mp3",
+        "lyricsUrl": "https://lrclib.net/api/search?track_name=O%20Haseena%20Zulfonwale%20Jane%20Jahan&artist_name=Asha%20Bhosle%2C%20Mohammed%20Rafi%2C%20R.%20D.%20Burman&album=Teesri%20Manzil"
+    },
+    {
+        "id": 26,
+        "title": "O Mere Sona Re Sona",
+        "artist": "Asha Bhosle, Mohammed Rafi, R. D. Burman",
+        "album": "Teesri Manzil",
+        "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02c016607af0377c3e5cb92e5f",
+        "url": "https://raw.githubusercontent.com/only-beats/Forever-in-Sync/main/O%20Mere%20Sona%20Re%20Sona.mp3",
+        "lyricsUrl": "https://lrclib.net/api/search?track_name=O%20Mere%20Sona%20Re%20Sona&artist_name=Asha%20Bhosle%2C%20Mohammed%20Rafi%2C%20R.%20D.%20Burman&album=Teesri%20Manzil"
+    },
+    {
+        "id": 27,
+        "title": "O Meri Soni Meri Tamanna",
+        "artist": "Asha Bhosle, Kishore Kumar",
+        "album": "Yaadon Ki Baaraat",
+        "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e026261648ac57d64f518f2c801",
+        "url": "https://raw.githubusercontent.com/only-beats/Forever-in-Sync/main/O%20Meri%20Soni%20Meri%20Tamanna.mp3",
+        "lyricsUrl": "https://lrclib.net/api/search?track_name=O%20Meri%20Soni%20Meri%20Tamanna&artist_name=Asha%20Bhosle%2C%20Kishore%20Kumar&album=Yaadon%20Ki%20Baaraat"
+    },
+    {
+        "id": 28,
+        "title": "O Sathi Chal",
+        "artist": "Asha Bhosle, Kishore Kumar",
+        "album": "Seeta Aur Geeta",
+        "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e0222392d68dbec4e5b5e243249",
+        "url": "https://raw.githubusercontent.com/only-beats/Forever-in-Sync/main/O%20Sathi%20Chal.mp3",
+        "lyricsUrl": "https://lrclib.net/api/search?track_name=O%20Sathi%20Chal&artist_name=Asha%20Bhosle%2C%20Kishore%20Kumar&album=Seeta%20Aur%20Geeta"
+    },
+    {
+        "id": 29,
+        "title": "Parda Hata Do - Trap Mix",
+        "artist": "Farooq Got Audio, Asha Bhosle, Mohammed Rafi",
+        "album": "Bollywood Trap Mix",
+        "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e023584876d084f971c78942bf6",
+        "url": "https://raw.githubusercontent.com/only-beats/Forever-in-Sync/main/Parda%20Hata%20Do%20-%20Trap%20Mix.mp3",
+        "lyricsUrl": "https://lrclib.net/api/search?track_name=Parda%20Hata%20Do%20-%20Trap%20Mix&artist_name=Farooq%20Got%20Audio%2C%20Asha%20Bhosle%2C%20Mohammed%20Rafi&album=Bollywood%20Trap%20Mix"
+    },
+    {
+        "id": 30,
+        "title": "Phulale Re Kshan Majhe",
+        "artist": "Asha Bhosle",
+        "album": "Ritu Hirwa",
+        "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e022252fc99dbd8f377ae0e9588",
+        "url": "https://raw.githubusercontent.com/only-beats/Forever-in-Sync/main/Phulale%20Re%20Kshan%20Majhe.mp3",
+        "lyricsUrl": "https://lrclib.net/api/search?track_name=Phulale%20Re%20Kshan%20Majhe&artist_name=Asha%20Bhosle&album=Ritu%20Hirwa"
     }
 
 
