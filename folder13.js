@@ -257,7 +257,7 @@ const SONGS_DATABASE = [
         "artist": "Farooq Got Audio, Asha Bhosle, Mohammed Rafi",
         "album": "Bollywood Trap Mix",
         "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e023584876d084f971c78942bf6",
-        "url": "https://raw.githubusercontent.com/only-beats/Forever-in-Sync/main/Parda%20Hata%20Do%20-%20Trap%20Mix.mp3",
+        "url": "https://raw.githubusercontent.com/only-beats/Forever-in-Sync/main/Parda%20Hata%20Do.mp3",
         "lyricsUrl": "https://lrclib.net/api/search?track_name=Parda%20Hata%20Do%20-%20Trap%20Mix&artist_name=Farooq%20Got%20Audio%2C%20Asha%20Bhosle%2C%20Mohammed%20Rafi&album=Bollywood%20Trap%20Mix"
     },
     {
