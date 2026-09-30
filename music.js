@@ -2052,6 +2052,15 @@ const SONGS_DATABASE = [
         "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e022399ea89cf12d2ad388bfe30",
         "url": "https://raw.githubusercontent.com/only-beats/Forever-in-Sync/main/Sur%20Niragas%20Ho.mp3",
         "lyricsUrl": "https://lrclib.net/api/search?track_name=Sur%20Niragas%20Ho&artist_name=Anandi%20Joshi%2C%20Shankar%20Mahadevan&album=Katyar%20Kaljat%20Ghusli"
+    },
+        {
+        "id": 269,
+        "title": "Kaahe Mose",
+        "artist": "Garvit-Priyansh",
+        "album": "Kaahe Mose",
+        "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e021f2c1b67a525cb5b6ccbb7fd",
+        "url": "https://raw.githubusercontent.com/only-beats/Forever-in-Sync/main/Kaahe%20Mose.mp3",
+        "lyricsUrl": "https://lrclib.net/api/search?track_name=Kaahe%20Mose&artist_name=Garvit-Priyansh&album=Kaahe%20Mose"
     }
 ];
 
