@@ -2026,14 +2026,14 @@ const SONGS_DATABASE = [
         "url": "https://raw.githubusercontent.com/only-beats/Forever-in-Sync/main/Subhanallah.mp3",
         "lyricsUrl": "https://lrclib.net/api/search?track_name=Subhanallah&artist_name=Sreeram&album=Yeh%20Jawaani%20Hai%20Deewani"
     },
-     {
+    {
         "id": 226,
         "title": "Isharon Isharon Men Dil Lenewale",
         "artist": "Asha Bhosle, Mohammed Rafi",
         "album": "Kashmir Ki Kali",
         "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e0286f1ce790b11125f1cb98306",
         "url": "https://raw.githubusercontent.com/only-beats/Forever-in-Sync/main/Isharon%20Isharon%20Men%20Dil%20Lenewale.mp3",
-        "lyricsUrl": "https://lrclib.net/api/search?track_name=Isharon%20Isharon%20Men%20Dil%20Lenewale&artist_name=Asha%20Bhosle%2C%20Mohammed%20Rafi&album=Kashmir%20Ki%20Kali"
+        "lyricsUrl": "https://lrclib.net/api/search?track_name=Isharon%20Isharon%20Men%20Dil%20Lenewale&artist_name=O.%20P.%20Nayyar&album=Kashmir%20Ki%20Kali"
     },
     {
         "id": 267,
