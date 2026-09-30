@@ -1582,6 +1582,14 @@ const SONGS_DATABASE = [
         "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e021f2c1b67a525cb5b6ccbb7fd",
         "url": "https://raw.githubusercontent.com/only-beats/Forever-in-Sync/main/Kaahe%20Mose.mp3",
         "lyricsUrl": "https://lrclib.net/api/search?track_name=Kaahe%20Mose&artist_name=Garvit-Priyansh&album=Kaahe%20Mose"
+    },
+        {
+        "id": 177,
+        "title": "Vaaroon",
+        "artist": "Anand Bhaskar",
+        "album": "Mirzapur",
+        "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02c33c23574fba0d4f630ca8c5",
+        "url": "https://raw.githubusercontent.com/only-beats/Forever-in-Sync/main/Vaaroon.mp3"
     }
 ];
 // App settings
