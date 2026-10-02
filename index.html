@@ -3628,11 +3628,18 @@
                             }, 200);
                         }
 
-                        // ⏳ Build search index in the BACKGROUND
+                        // ⏳ Build search index in the BACKGROUND, then re-render folder cards
+                        // so the song-art covers appear once the data is available.
+                        const afterIndexBuilt = () => {
+                            buildSearchIndex().then(() => {
+                                renderFolders(foldersList);   // 👈 repaint with song covers
+                            });
+                        };
+
                         if ('requestIdleCallback' in window) {
-                            requestIdleCallback(() => buildSearchIndex());
+                            requestIdleCallback(afterIndexBuilt);
                         } else {
-                            setTimeout(() => buildSearchIndex(), 100);
+                            setTimeout(afterIndexBuilt, 100);
                         }
                     }
                 };
@@ -3871,11 +3878,34 @@
                             folderCard._folder = folder;
 
                             let coverHtml;
-                            if (folder.isCustomFolder) {
-                                const folderSongs = getSongsInCustomFolder(folder.id);
 
-                                if (folderSongs.length === 0) {
-                                    // Empty custom folder → default folder icon
+                            const artistFolderIds =
+                                (FOLDER_SECTIONS.find(s => s.title === 'Artist')?.folderIds) || [];
+
+                            const useStaticCover =
+                                folder.isLikedFolder ||
+                                folder.id === 1 ||
+                                artistFolderIds.includes(folder.id);
+
+                            if (useStaticCover) {
+                                const folderImage = folder.folderCover || 'svg/folder.svg';
+                                coverHtml = `<img src="${folderImage}" alt="${folder.name}" onerror="this.src='svg/folder.svg'">`;
+                            } else {
+                                let folderSongs;
+
+                                if (folder.isCustomFolder) {
+                                    folderSongs = getSongsInCustomFolder(folder.id);
+                                } else {
+                                    // Pull from allSongsWithFolder (search index built on app load)
+                                    folderSongs = allSongsWithFolder
+                                        .filter(s => s.folderId === folder.id)
+                                        .map(s => ({
+                                            cover_url: s.cover_url || s.cover || 'logo.png'
+                                        }));
+                                }
+
+                                if (!folderSongs || folderSongs.length === 0) {
+                                    // No songs → default folder icon
                                     coverHtml = `<img src="svg/folder.svg" alt="${folder.name}">`;
                                 } else if (folderSongs.length < 4) {
                                     // 1–3 songs → single cover (first song)
@@ -3888,10 +3918,6 @@
                                     ).join('');
                                     coverHtml = `<div class="folder-collage">${covers}</div>`;
                                 }
-                            } else {
-                                // Liked Songs / built-in folders → unchanged
-                                const folderImage = folder.folderCover || 'svg/folder.svg';
-                                coverHtml = `<img src="${folderImage}" alt="${folder.name}" onerror="this.src='svg/folder.svg'">`;
                             }
 
                             folderCard.innerHTML = `
@@ -4162,6 +4188,13 @@
             }
 
             currentFolder = folder;
+
+            // Cog icon only for user-created folders
+            const cogBtn = document.getElementById('folderSettingsBtn');
+            if (cogBtn) {
+                cogBtn.style.display = folder.isCustomFolder ? 'block' : 'none';
+            }
+
             // If this is the special "Liked Songs" folder, load from localStorage
             if (folder.isLikedFolder) {
                 // Prepare the view
