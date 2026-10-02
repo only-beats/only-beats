@@ -3028,16 +3028,6 @@
             openNewFolderModal();
         }
 
-        function deleteCustomFolderPrompt(id, name) {
-            if (!confirm(`Delete folder "${name}"? This cannot be undone.`)) return;
-            deleteCustomFolder(id);
-            // remove from in-memory list
-            const idx = foldersList.findIndex(f => f.id === id);
-            if (idx !== -1) foldersList.splice(idx, 1);
-            goBackToFolders();
-            renderFolders(foldersList);
-            showToast('Folder deleted', 1500);
-        }
 
 
         function getLikedSongs() {
