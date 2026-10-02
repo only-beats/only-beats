@@ -2627,6 +2627,30 @@
             display: block;
         }
 
+        /* Static-cover folders (Liked, Forever in Sync, Artists) — same box as collage */
+        .folder-card .folder-static-cover {
+            width: 85px;
+            height: 85px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 768px) {
+            .folder-card .folder-static-cover {
+                width: 62px;
+                height: 62px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .folder-card .folder-static-cover {
+                width: 70px;
+                height: 70px;
+            }
+        }
+
         /* Override the base .folder-collage size so it fills the menu cover */
         .folder-menu-cover .folder-collage {
             width: 100%;
@@ -3889,7 +3913,7 @@
 
                             if (useStaticCover) {
                                 const folderImage = folder.folderCover || 'svg/folder.svg';
-                                coverHtml = `<img src="${folderImage}" alt="${folder.name}" onerror="this.src='svg/folder.svg'">`;
+                                coverHtml = `<img class="folder-static-cover" src="${folderImage}" alt="${folder.name}" onerror="this.src='svg/folder.svg'">`;
                             } else {
                                 let folderSongs;
 
