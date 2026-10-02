@@ -2202,6 +2202,353 @@
                 margin-top: 4px;
             }
         }
+
+        /* ── Add Custom Folder card ("+") ── */
+        .add-folder-card {
+            cursor: pointer;
+            border: 2px dashed rgba(29, 185, 84, 0.5) !important;
+            background: rgba(29, 185, 84, 0.05) !important;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .add-folder-card .add-folder-icon {
+            width: 85px;
+            height: 85px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 56px;
+            font-weight: 200;
+            color: #1DB954;
+            line-height: 1;
+            margin-bottom: 8px;
+            border-radius: 50%;
+            border: 3px dashed rgba(29, 185, 84, 0.5);
+            transition: all 0.2s;
+            padding-bottom: 4px;
+            /* Pull the "+" visually centered */
+        }
+
+        .add-folder-card:hover .add-folder-icon,
+        .add-folder-card:active .add-folder-icon {
+            background: rgba(29, 185, 84, 0.18);
+            border-color: #1DB954;
+            transform: scale(1.06);
+        }
+
+        .add-folder-card h4 {
+            color: #1DB954 !important;
+        }
+
+        /* Delete button inside empty custom folder */
+        .custom-folder-delete {
+            margin-top: 22px;
+            background: rgba(255, 80, 80, 0.15);
+            border: 1px solid #ff5050;
+            color: #ff5050;
+            padding: 9px 22px;
+            border-radius: 22px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            font-family: 'Poppins', sans-serif;
+            transition: 0.2s;
+        }
+
+        .custom-folder-delete:active {
+            background: rgba(255, 80, 80, 0.3);
+            transform: scale(0.97);
+        }
+
+        /* ══ New Folder Modal ══ */
+        .new-folder-card {
+            text-align: center;
+            padding: 26px 24px 22px 24px;
+            width: 360px;
+        }
+
+        .new-folder-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            margin: 0 0 22px 0;
+            text-align: center;
+        }
+
+        .new-folder-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-size: 20px;
+            font-weight: 500;
+            text-align: center;
+            padding: 6px 4px 10px 4px;
+            outline: none;
+            transition: border-color 0.2s;
+            -webkit-user-select: text;
+            user-select: text;
+        }
+
+        .new-folder-input:focus {
+            border-bottom-color: #1DB954;
+        }
+
+        .new-folder-input::placeholder {
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        .new-folder-actions {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 28px;
+        }
+
+        .new-folder-actions button {
+            min-width: 120px;
+            padding: 11px 26px;
+            border-radius: 40px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .new-folder-cancel {
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+        }
+
+        .new-folder-cancel:active {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(0.97);
+        }
+
+        .new-folder-create {
+            background: #1DB954;
+            color: #000;
+            border: none;
+        }
+
+        .new-folder-create:active {
+            background: #1aa34a;
+            transform: scale(0.97);
+        }
+
+        @media (max-width: 480px) {
+            .new-folder-card {
+                width: 92%;
+                padding: 22px 18px 18px 18px;
+            }
+
+            .new-folder-title {
+                font-size: 16px;
+                margin-bottom: 18px;
+            }
+
+            .new-folder-input {
+                font-size: 18px;
+            }
+
+            .new-folder-actions button {
+                min-width: 100px;
+                padding: 10px 20px;
+                font-size: 13px;
+            }
+        }
+
+        /* ══ Slow-spinning cog next to folder name ══ */
+        .folder-title-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .folder-title-row>img:first-child {
+            width: 20px;
+            height: 20px;
+            filter: brightness(0) invert(1);
+        }
+
+        .folder-settings-btn {
+            width: 18px;
+            height: 18px;
+            filter: brightness(0) invert(1);
+            opacity: 0.7;
+            cursor: pointer;
+            margin-left: 4px;
+            animation: slowSpin 8s linear infinite;
+            transition: opacity 0.2s;
+            -webkit-user-drag: none;
+            pointer-events: auto;
+        }
+
+        .folder-settings-btn:active {
+            opacity: 1;
+        }
+
+        @keyframes slowSpin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ══ Folder options bottom-sheet ══ */
+        .folder-menu-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1500;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.25s;
+        }
+
+        .folder-menu-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .folder-menu-panel {
+            background: #161616;
+            width: 100%;
+            max-width: 480px;
+            border-radius: 24px 24px 0 0;
+            padding: 20px 0 20px 0;
+            border-top: 1px solid rgba(29, 185, 84, 0.25);
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .folder-menu-overlay.active .folder-menu-panel {
+            transform: translateY(0);
+        }
+
+        .folder-menu-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 4px 22px 18px 22px;
+        }
+
+        .folder-menu-cover {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            flex-shrink: 0;
+            background: #222;
+        }
+
+        .folder-menu-header-text {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .folder-menu-header-text h3 {
+            font-size: 17px;
+            font-weight: 600;
+            color: #fff;
+            margin: 0 0 4px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .folder-menu-header-text p {
+            font-size: 12px;
+            color: #999;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .folder-menu-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.08);
+            margin: 0 0 8px 0;
+        }
+
+        .folder-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            width: 100%;
+            padding: 14px 24px;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            text-align: left;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .folder-menu-item:active {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .folder-menu-item svg {
+            width: 22px;
+            height: 22px;
+            flex-shrink: 0;
+            opacity: 0.9;
+        }
+
+        .folder-menu-item.danger {
+            color: #ff5050;
+        }
+
+        .new-folder-desc {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ddd;
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            font-weight: 400;
+            text-align: center;
+            padding: 8px 4px 8px 4px;
+            margin-top: 14px;
+            outline: none;
+            resize: none;
+            transition: border-color 0.2s;
+            -webkit-user-select: text;
+            user-select: text;
+            line-height: 1.4;
+        }
+
+        .new-folder-desc:focus {
+            border-bottom-color: #1DB954;
+        }
+
+        .new-folder-desc::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 12px;
+        }
     </style>
 </head>
 
@@ -2244,8 +2591,11 @@
             <div id="songsView" style="display: none;">
                 <div class="section-title">
                     <div class="title-left">
-                        <span><img src="svg/headphone-alt.svg" alt="headphone"><span
-                                id="currentFolderName">Songs</span></span>
+                        <span class="folder-title-row">
+                            <img src="svg/headphone-alt.svg" alt="headphone">
+                            <span id="currentFolderName">Songs</span>
+                            <img src="svg/cog.svg" id="folderSettingsBtn" class="folder-settings-btn" alt="Settings">
+                        </span>
                         <div class="sort-icons">
                             <img src="svg/arrow-down-a-z.svg" id="sortAZ" alt="Sort A-Z">
                             <img src="svg/arrow-up-a-z.svg" id="sortZA" alt="Sort Z-A">
@@ -2313,6 +2663,7 @@
     </div>
 
     <div id="songModal" class="modal-overlay">
+
         <div class="modal-card">
             <img id="modalCover" class="cover-img" draggable="false">
             <div class="modal-detail"><img src="svg/headphone-alt.svg" class="icon"><span
@@ -2353,6 +2704,68 @@
             </div>
 
             <button id="closeModalBtn">CLOSE</button>
+        </div>
+    </div>
+
+    <!-- ══ New Folder Name Modal ══ -->
+    <div id="newFolderModal" class="modal-overlay">
+        <div class="modal-card new-folder-card">
+            <h3 class="new-folder-title">Give your playlist a name</h3>
+            <input type="text" id="newFolderNameInput" class="new-folder-input" placeholder="My playlist #1"
+                maxlength="60" autocomplete="off">
+            <textarea id="newFolderDescInput" class="new-folder-desc" placeholder="Add a description (optional)"
+                maxlength="200" rows="2"></textarea>
+            <div class="new-folder-actions">
+                <button id="newFolderCancelBtn" class="new-folder-cancel">Cancel</button>
+                <button id="newFolderCreateBtn" class="new-folder-create">Create</button>
+            </div>
+        </div>
+    </div>
+    <!-- ══ Folder options menu (bottom sheet) ══ -->
+    <div id="folderMenuModal" class="folder-menu-overlay">
+        <div class="folder-menu-panel">
+            <div class="folder-menu-header">
+                <img id="folderMenuCover" class="folder-menu-cover" src="logo.png" alt="cover">
+                <div class="folder-menu-header-text">
+                    <h3 id="folderMenuName">Folder</h3>
+                    <p id="folderMenuSubtitle">Add a description</p>
+                </div>
+            </div>
+
+            <div class="folder-menu-divider"></div>
+
+            <button class="folder-menu-item" id="folderMenuShare">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <circle cx="18" cy="5" r="3"></circle>
+                    <circle cx="6" cy="12" r="3"></circle>
+                    <circle cx="18" cy="19" r="3"></circle>
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                </svg>
+                <span>Share</span>
+            </button>
+
+
+            <button class="folder-menu-item" id="folderMenuRename">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M12 20h9"></path>
+                    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                </svg>
+                <span>Name and details</span>
+            </button>
+
+            <button class="folder-menu-item danger" id="folderMenuDelete">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                </svg>
+                <span>Delete playlist</span>
+            </button>
         </div>
     </div>
 
@@ -2414,10 +2827,217 @@
 
         const LIKED_STORAGE_KEY = 'onlyBeatsLikedSongs';
         const FOLDER_SECTIONS = [
-            { title: "Your Folder", folderIds: [0] },
+            { title: "Your Folder", folderIds: [0], includeCustom: true },
             { title: "Mix Folder", folderIds: [1, 4, 10, 3, 2, 5, 6, 7, 8, 9, 11] },
             { title: "Artist", folderIds: [12, 13] }
         ];
+
+        // ============ CUSTOM FOLDERS (user-created) ============
+        const CUSTOM_FOLDERS_KEY = 'onlyBeatsCustomFolders';
+
+        function getCustomFolders() {
+            try {
+                return JSON.parse(localStorage.getItem(CUSTOM_FOLDERS_KEY)) || [];
+            } catch {
+                return [];
+            }
+        }
+
+        function saveCustomFolders(folders) {
+            localStorage.setItem(CUSTOM_FOLDERS_KEY, JSON.stringify(folders));
+        }
+
+        function createCustomFolder(name) {
+            const folders = getCustomFolders();
+            const newFolder = {
+                id: 'custom_' + Date.now(),
+                name: name,
+                isCustomFolder: true,
+                createdAt: Date.now()
+            };
+            folders.push(newFolder);
+            saveCustomFolders(folders);
+            return newFolder;
+        }
+
+        function deleteCustomFolder(id) {
+            let folders = getCustomFolders();
+            folders = folders.filter(f => f.id !== id);
+            saveCustomFolders(folders);
+        }
+
+        // Browser prompt is fine — replace with your own modal later if you want.
+        // ══ New Folder Modal — open / close / submit ══
+        let _newFolderModalRef = null;
+
+        let _editingFolderId = null;
+
+        function openNewFolderModal() {
+            const modal = document.getElementById('newFolderModal');
+            const input = document.getElementById('newFolderNameInput');
+            const desc = document.getElementById('newFolderDescInput');
+            const title = modal?.querySelector('.new-folder-title');
+            const createBtn = document.getElementById('newFolderCreateBtn');
+            if (!modal || !input) return;
+
+            _editingFolderId = null;
+            if (title) title.textContent = 'Give your playlist a name';
+            if (createBtn) createBtn.textContent = 'Create';
+
+            const count = getCustomFolders().length + 1;
+            input.value = `My playlist #${count}`;
+            if (desc) desc.value = '';
+
+            modal.classList.add('active');
+            setTimeout(() => { input.focus(); input.select(); }, 80);
+        }
+
+        function openRenameFolderModal(folder) {
+            const modal = document.getElementById('newFolderModal');
+            const input = document.getElementById('newFolderNameInput');
+            const desc = document.getElementById('newFolderDescInput');
+            const title = modal?.querySelector('.new-folder-title');
+            const createBtn = document.getElementById('newFolderCreateBtn');
+            if (!modal || !input || !folder) return;
+
+            _editingFolderId = folder.id;
+            if (title) title.textContent = 'Name and details';
+            if (createBtn) createBtn.textContent = 'Save';
+
+            input.value = folder.name || '';
+            if (desc) desc.value = folder.description || '';
+
+            modal.classList.add('active');
+            setTimeout(() => { input.focus(); input.select(); }, 80);
+        }
+
+        function closeNewFolderModal() {
+            const modal = document.getElementById('newFolderModal');
+            if (!modal) return;
+            modal.classList.remove('active');
+            const input = document.getElementById('newFolderNameInput');
+            const desc = document.getElementById('newFolderDescInput');
+            if (input) input.value = '';
+            if (desc) desc.value = '';
+            _editingFolderId = null;
+
+            const title = modal.querySelector('.new-folder-title');
+            const createBtn = document.getElementById('newFolderCreateBtn');
+            if (title) title.textContent = 'Give your playlist a name';
+            if (createBtn) createBtn.textContent = 'Create';
+        }
+
+        function submitNewFolderModal() {
+            const input = document.getElementById('newFolderNameInput');
+            const desc = document.getElementById('newFolderDescInput');
+            if (!input) return;
+
+            const name = input.value.trim();
+            const description = desc ? desc.value.trim() : '';
+
+            if (name === '') {
+                showToast('Folder name cannot be empty', 1500);
+                return;
+            }
+
+            const dup = foldersList.find(f =>
+                f.name.toLowerCase() === name.toLowerCase() && f.id !== _editingFolderId
+            );
+            if (dup) {
+                showToast('A folder with this name already exists', 1800);
+                return;
+            }
+
+            // ─── RENAME / EDIT MODE ───
+            if (_editingFolderId) {
+                const folder = foldersList.find(f => f.id === _editingFolderId);
+                if (folder) {
+                    folder.name = name;
+                    folder.description = description;
+
+                    const customs = getCustomFolders();
+                    const cf = customs.find(f => f.id === _editingFolderId);
+                    if (cf) {
+                        cf.name = name;
+                        cf.description = description;
+                        saveCustomFolders(customs);
+                    }
+
+                    if (currentFolder && currentFolder.id === _editingFolderId) {
+                        currentFolder.name = name;
+                        currentFolder.description = description;
+                        document.getElementById('currentFolderName').innerText = name;
+                        try { history.replaceState(null, '', '#' + encodeURIComponent(name)); } catch (e) { }
+                        sessionStorage.setItem('currentFolderName', name);
+                    }
+
+                    closeNewFolderModal();
+                    renderFolders(foldersList);
+                    showToast('Folder updated', 2000);
+                }
+                return;
+            }
+
+            // ─── CREATE MODE ───
+            const newFolder = createCustomFolder(name);
+            newFolder.description = description;
+            // Persist description
+            const customs = getCustomFolders();
+            const saved = customs.find(f => f.id === newFolder.id);
+            if (saved) { saved.description = description; saveCustomFolders(customs); }
+
+            foldersList.push({ ...newFolder, folderCover: 'svg/folder.svg' });
+
+            closeNewFolderModal();
+            renderFolders(foldersList);
+            showToast(`Folder "${name}" created`, 2000);
+        }
+
+        // Wire up modal buttons + keyboard shortcuts (once, after DOM ready)
+        (function wireNewFolderModal() {
+            const bind = () => {
+                const modal = document.getElementById('newFolderModal');
+                const input = document.getElementById('newFolderNameInput');
+                const cancelBtn = document.getElementById('newFolderCancelBtn');
+                const createBtn = document.getElementById('newFolderCreateBtn');
+                if (!modal) return;
+
+                cancelBtn?.addEventListener('click', closeNewFolderModal);
+                createBtn?.addEventListener('click', submitNewFolderModal);
+
+                // Enter = submit, Esc = cancel
+                input?.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') { e.preventDefault(); submitNewFolderModal(); }
+                    else if (e.key === 'Escape') { e.preventDefault(); closeNewFolderModal(); }
+                });
+
+                // Click on the dark backdrop = cancel
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) closeNewFolderModal();
+                });
+            };
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', bind);
+            } else {
+                bind();
+            }
+        })();
+
+        // Keep old name working — the "+" card calls promptCreateFolder()
+        function promptCreateFolder() {
+            openNewFolderModal();
+        }
+
+        function deleteCustomFolderPrompt(id, name) {
+            if (!confirm(`Delete folder "${name}"? This cannot be undone.`)) return;
+            deleteCustomFolder(id);
+            // remove from in-memory list
+            const idx = foldersList.findIndex(f => f.id === id);
+            if (idx !== -1) foldersList.splice(idx, 1);
+            goBackToFolders();
+            renderFolders(foldersList);
+            showToast('Folder deleted', 1500);
+        }
 
 
         function getLikedSongs() {
@@ -2556,6 +3176,15 @@
                             isLikedFolder: true
                         };
                         foldersList.unshift(likedFolder); // adds it as the first folder
+
+                        // ➕ Load user-created custom folders from localStorage — BEFORE rendering
+                        const customFolders = getCustomFolders();
+                        customFolders.forEach(cf => {
+                            cf.folderCover = cf.folderCover || 'svg/folder.svg';
+                            foldersList.push(cf);
+                        });
+
+                        // Now render once, with everything in the list
                         renderFolders(foldersList);
                         // Re-attempt folder opening from hash after folders are rendered
                         setTimeout(function () {
@@ -2698,7 +3327,15 @@
                         .map(id => folders.find(f => f.id === id))
                         .filter(Boolean);
                 }
-                if (sectionFolders.length === 0) return;
+
+                // ➕ Include user-created custom folders in this section too
+                if (section.includeCustom) {
+                    const customs = folders.filter(f => f.isCustomFolder);
+                    sectionFolders = [...sectionFolders, ...customs];
+                }
+
+                // Don't skip the section if it has no folders but SHOULD show the "+" card
+                if (sectionFolders.length === 0 && !section.includeCustom) return;
 
                 const sectionEl = document.createElement('div');
                 sectionEl.className = 'folder-section';
@@ -2839,6 +3476,7 @@
 
                             let colorId;
                             if (folder.isLikedFolder) colorId = 4;
+                            else if (folder.isCustomFolder) colorId = 4; // custom folders use green
                             else colorId = ((folder.id - 1) % 10) + 1;
                             folderCard.setAttribute('data-color', colorId);
 
@@ -2852,6 +3490,22 @@
                             folderCard.addEventListener('click', () => openFolder(folder));
                             rowEl.appendChild(folderCard);
                         });
+                    }
+
+                    // ➕ Add "New Folder" card at the end (only for sections flagged includeCustom)
+                    if (section.includeCustom) {
+                        const addCard = document.createElement('div');
+                        addCard.className = 'folder-card add-folder-card';
+                        addCard.setAttribute('data-color', '4');
+                        addCard.innerHTML = `
+            <div class="add-folder-icon">+</div>
+            <h4>New Folder</h4>
+        `;
+                        addCard.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            promptCreateFolder();
+                        });
+                        rowEl.appendChild(addCard);
                     }
 
                     // Preserve the "playing" dotted-border state on the currently playing folder
@@ -2901,6 +3555,101 @@
                 foldersView.appendChild(sectionEl);
             });
         }
+
+        // ══════════════════════════════════════════════
+        // FOLDER OPTIONS MENU (cog button)
+        // ══════════════════════════════════════════════
+        (function wireFolderMenu() {
+            const bind = () => {
+                const cogBtn = document.getElementById('folderSettingsBtn');
+                const menu = document.getElementById('folderMenuModal');
+                const coverEl = document.getElementById('folderMenuCover');
+                const nameEl = document.getElementById('folderMenuName');
+                const subtitleEl = document.getElementById('folderMenuSubtitle');
+                const shareBtn = document.getElementById('folderMenuShare');
+                const renameBtn = document.getElementById('folderMenuRename');
+                const deleteBtn = document.getElementById('folderMenuDelete');
+
+                if (!cogBtn || !menu) return;
+
+                function openFolderMenu() {
+                    if (!currentFolder) return;
+
+                    // Cover = FIRST SONG's cover art
+                    let coverUrl = 'logo.png';
+                    if (Array.isArray(allSongs) && allSongs.length > 0 && allSongs[0].cover_url) {
+                        coverUrl = allSongs[0].cover_url;
+                    }
+                    coverEl.src = coverUrl;
+                    coverEl.onerror = () => { coverEl.src = 'logo.png'; };
+
+                    nameEl.textContent = currentFolder.name;
+                    subtitleEl.textContent = currentFolder.description
+                        ? currentFolder.description
+                        : 'Add a description';
+
+                    // Rename + Delete only for user-created folders
+                    const isCustom = !!currentFolder.isCustomFolder;
+                    renameBtn.style.display = isCustom ? 'flex' : 'none';
+                    deleteBtn.style.display = isCustom ? 'flex' : 'none';
+
+                    menu.classList.add('active');
+                }
+
+                function closeFolderMenu() {
+                    menu.classList.remove('active');
+                }
+
+                cogBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openFolderMenu();
+                });
+
+                // Backdrop close
+                menu.addEventListener('click', (e) => {
+                    if (e.target === menu) closeFolderMenu();
+                });
+
+                // Share → copy current URL
+                shareBtn.addEventListener('click', () => {
+                    closeFolderMenu();
+                    const url = window.location.href;
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(url)
+                            .then(() => showToast('Link copied!', 1800))
+                            .catch(() => showToast('Could not copy link', 1500));
+                    } else {
+                        showToast('Link: ' + url, 2500);
+                    }
+                });
+
+
+                // Name and details → open the existing newFolderModal in RENAME mode
+                renameBtn.addEventListener('click', () => {
+                    closeFolderMenu();
+                    if (!currentFolder || !currentFolder.isCustomFolder) return;
+                    openRenameFolderModal(currentFolder);
+                });
+
+                // Delete playlist
+                deleteBtn.addEventListener('click', () => {
+                    closeFolderMenu();
+                    if (!currentFolder || !currentFolder.isCustomFolder) return;
+                    const id = currentFolder.id;
+                    const name = currentFolder.name;
+                    // Small delay so the menu closes smoothly
+                    setTimeout(() => {
+                        deleteCustomFolderPrompt(id, name);
+                    }, 200);
+                });
+            };
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', bind);
+            } else {
+                bind();
+            }
+        })();
 
         // Track which folder is currently playing
         let activeFolderId = null;
