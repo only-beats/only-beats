@@ -2847,12 +2847,25 @@
             localStorage.setItem(CUSTOM_FOLDERS_KEY, JSON.stringify(folders));
         }
 
+        const CUSTOM_FOLDER_COLORS = [1, 2, 3, 5, 6, 7, 8, 9, 10, 11]; // skip 4 (green = Liked)
+
+        function getNextCustomColorId() {
+            const existing = getCustomFolders();
+            const used = existing.map(f => f.colorId).filter(Boolean);
+            for (const c of CUSTOM_FOLDER_COLORS) {
+                if (!used.includes(c)) return c;
+            }
+            // All colors used — cycle based on count
+            return CUSTOM_FOLDER_COLORS[existing.length % CUSTOM_FOLDER_COLORS.length];
+        }
+
         function createCustomFolder(name) {
             const folders = getCustomFolders();
             const newFolder = {
                 id: 'custom_' + Date.now(),
                 name: name,
                 isCustomFolder: true,
+                colorId: getNextCustomColorId(),   // ← NEW
                 createdAt: Date.now()
             };
             folders.push(newFolder);
@@ -3027,8 +3040,6 @@
         function promptCreateFolder() {
             openNewFolderModal();
         }
-
-
 
         function getLikedSongs() {
             try {
@@ -3466,7 +3477,7 @@
 
                             let colorId;
                             if (folder.isLikedFolder) colorId = 4;
-                            else if (folder.isCustomFolder) colorId = 4; // custom folders use green
+                            else if (folder.isCustomFolder) colorId = folder.colorId || 4; // ← use stored color
                             else colorId = ((folder.id - 1) % 10) + 1;
                             folderCard.setAttribute('data-color', colorId);
 
@@ -3483,19 +3494,35 @@
                     }
 
                     // ➕ Add "New Folder" card at the end (only for sections flagged includeCustom)
+                    // ➕ Add "New Folder" card — always right after the Liked Songs folder
                     if (section.includeCustom) {
                         const addCard = document.createElement('div');
                         addCard.className = 'folder-card add-folder-card';
                         addCard.setAttribute('data-color', '4');
                         addCard.innerHTML = `
-            <div class="add-folder-icon">+</div>
-            <h4>New Folder</h4>
-        `;
+        <div class="add-folder-icon">+</div>
+        <h4>New Folder</h4>
+    `;
                         addCard.addEventListener('click', (e) => {
                             e.stopPropagation();
                             promptCreateFolder();
                         });
-                        rowEl.appendChild(addCard);
+
+                        // Find the Liked Songs card (isLikedFolder === true) inside the row
+                        const likedCard = Array.from(rowEl.children).find(
+                            c => c._folder && c._folder.isLikedFolder
+                        );
+
+                        if (likedCard && likedCard.nextSibling) {
+                            // Insert right after the Liked Songs card
+                            rowEl.insertBefore(addCard, likedCard.nextSibling);
+                        } else if (likedCard) {
+                            // Liked card is last — append at the end
+                            rowEl.appendChild(addCard);
+                        } else {
+                            // No liked card in this section — append at the end
+                            rowEl.appendChild(addCard);
+                        }
                     }
 
                     // Preserve the "playing" dotted-border state on the currently playing folder
@@ -3623,14 +3650,30 @@
 
                 // Delete playlist
                 deleteBtn.addEventListener('click', () => {
-                    closeFolderMenu();
                     if (!currentFolder || !currentFolder.isCustomFolder) return;
                     const id = currentFolder.id;
-                    const name = currentFolder.name;
-                    // Small delay so the menu closes smoothly
-                    setTimeout(() => {
-                        deleteCustomFolderPrompt(id, name);
-                    }, 200);
+
+                    // 1. Remove from localStorage
+                    try {
+                        const remaining = getCustomFolders().filter(f => f.id !== id);
+                        saveCustomFolders(remaining);
+                    } catch (err) {
+                        console.error('Failed to update custom folders:', err);
+                    }
+
+                    // 2. Remove from the in-memory list
+                    foldersList = foldersList.filter(f => f.id !== id);
+
+                    // 3. Clear currentFolder (we're deleting the one we're inside)
+                    currentFolder = null;
+
+                    // 4. Close the menu
+                    closeFolderMenu();
+
+                    // 5. Go back to the folders grid and re-render with the updated list
+                    goBackToFolders();
+                    renderFolders(foldersList);
+                    showToast('Folder deleted', 1500);
                 });
             };
 
