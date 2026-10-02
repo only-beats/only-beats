@@ -1976,6 +1976,164 @@
             font-size: 18px;
         }
 
+        /* ── Song row: bookmark + heart ── */
+        .song-like {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding-left: 10px;
+        }
+
+        .like-btn,
+        .bookmark-btn {
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+            transition: transform 0.15s ease;
+        }
+
+        .like-btn:active,
+        .bookmark-btn:active {
+            transform: scale(0.85);
+        }
+
+        .like-btn img,
+        .bookmark-btn img {
+            width: 18px;
+            height: 18px;
+            display: block;
+        }
+
+        /* ── Folder picker modal ── */
+        .folder-picker-card {
+            text-align: left;
+            width: 400px;
+            max-width: 92%;
+            padding: 22px 22px 20px 22px;
+        }
+
+        .folder-picker-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: #fff;
+            margin: 0 0 16px 0;
+            text-align: center;
+        }
+
+        .folder-picker-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 16px;
+            padding-right: 2px;
+        }
+
+        .folder-picker-empty {
+            text-align: center;
+            color: #888;
+            font-size: 13px;
+            padding: 22px 12px;
+            font-style: italic;
+        }
+
+        .folder-picker-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .folder-picker-item:active {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .folder-picker-item.checked {
+            background: rgba(29, 185, 84, 0.15);
+            border-color: rgba(29, 185, 84, 0.4);
+        }
+
+        .folder-picker-check {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.15s;
+        }
+
+        .folder-picker-item.checked .folder-picker-check {
+            background: #1DB954;
+            border-color: #1DB954;
+        }
+
+        .folder-picker-item.checked .folder-picker-check::after {
+            content: '';
+            width: 10px;
+            height: 6px;
+            border-left: 2px solid #000;
+            border-bottom: 2px solid #000;
+            transform: rotate(-45deg) translate(1px, -1px);
+        }
+
+        .folder-picker-item-name {
+            flex: 1;
+            font-size: 14px;
+            font-weight: 500;
+            color: #fff;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .folder-picker-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .folder-picker-create {
+            background: linear-gradient(135deg, rgba(29, 185, 84, 0.15) 0%, rgba(29, 185, 84, 0.25) 100%);
+            border: 1.5px dashed rgba(29, 185, 84, 0.6);
+            color: #1DB954;
+            padding: 12px 20px;
+            border-radius: 40px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .folder-picker-create:active {
+            background: #1DB954;
+            color: #000;
+        }
+
+        .folder-picker-close {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+            padding: 11px 20px;
+            border-radius: 40px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
         /* ── Folder row scroll arrows ── */
         .folder-row-wrapper {
             position: relative;
@@ -2721,6 +2879,18 @@
             </div>
         </div>
     </div>
+
+    <!-- ══ Folder Picker Modal ══ -->
+    <div id="folderPickerModal" class="modal-overlay">
+        <div class="modal-card folder-picker-card">
+            <h3 class="folder-picker-title">Add to folder</h3>
+            <div class="folder-picker-list" id="folderPickerList"></div>
+            <div class="folder-picker-actions">
+                <button id="folderPickerCreateBtn" class="folder-picker-create">+ CREATE NEW FOLDER</button>
+                <button id="folderPickerCloseBtn" class="folder-picker-close">Close</button>
+            </div>
+        </div>
+    </div>
     <!-- ══ Folder options menu (bottom sheet) ══ -->
     <div id="folderMenuModal" class="folder-menu-overlay">
         <div class="folder-menu-panel">
@@ -2841,6 +3011,58 @@
             } catch {
                 return [];
             }
+        }
+
+        // ============ CUSTOM FOLDER SONGS (bookmark) ============
+        const CUSTOM_FOLDER_SONGS_KEY = 'onlyBeatsCustomFolderSongs';
+
+        function getCustomFolderSongsMap() {
+            try { return JSON.parse(localStorage.getItem(CUSTOM_FOLDER_SONGS_KEY)) || {}; }
+            catch { return {}; }
+        }
+
+        function saveCustomFolderSongsMap(map) {
+            localStorage.setItem(CUSTOM_FOLDER_SONGS_KEY, JSON.stringify(map));
+        }
+
+        function getSongsInCustomFolder(folderId) {
+            return getCustomFolderSongsMap()[folderId] || [];
+        }
+
+        function isSongInCustomFolder(song, folderId) {
+            return getSongsInCustomFolder(folderId).some(s => s.url === song.url);
+        }
+
+        function isSongInAnyCustomFolder(song) {
+            const map = getCustomFolderSongsMap();
+            return Object.keys(map).some(fid => (map[fid] || []).some(s => s.url === song.url));
+        }
+
+        function toggleSongInCustomFolder(song, folderId) {
+            const map = getCustomFolderSongsMap();
+            if (!map[folderId]) map[folderId] = [];
+            const idx = map[folderId].findIndex(s => s.url === song.url);
+            if (idx !== -1) {
+                map[folderId].splice(idx, 1);
+                saveCustomFolderSongsMap(map);
+                return false; // removed
+            } else {
+                map[folderId].push({
+                    title: song.title,
+                    artist: song.artist,
+                    album: song.album || '',
+                    cover_url: song.cover_url || 'logo.png',
+                    url: song.url,
+                    lyricsUrl: song.lyricsUrl || ''
+                });
+                saveCustomFolderSongsMap(map);
+                return true; // added
+            }
+        }
+
+        function getBookmarkIcon(inAnyFolder) {
+            const src = inAnyFolder ? 'svg/bookmark-heart.svg' : 'svg/bookmark.svg';
+            return `<img src="${src}" alt="bookmark">`;
         }
 
         function saveCustomFolders(folders) {
@@ -3003,7 +3225,17 @@
 
             closeNewFolderModal();
             renderFolders(foldersList);
-            showToast(`Folder "${name}" created`, 2000);
+
+            const pendingSong = window._pendingSongForNewFolder;
+            window._pendingSongForNewFolder = null;
+
+            if (pendingSong) {
+                toggleSongInCustomFolder(pendingSong, newFolder.id);
+                if (currentFolder && allSongs.length > 0) renderSongs(allSongs, false);
+                showToast(`Added to "${name}"`, 2000);
+            } else {
+                showToast(`Folder "${name}" created`, 2000);
+            }
         }
 
         // Wire up modal buttons + keyboard shortcuts (once, after DOM ready)
@@ -3083,9 +3315,8 @@
         // --- Helper to return SVG <img> for like status ---
         function getLikeIcon(liked) {
             const src = liked ? 'svg/Liked.svg' : 'svg/Disliked.svg';
-            return `<img src="${src}" alt="like" style="width: 13px; height: 13px; display:block;">`;
+            return `<img src="${src}" alt="like">`;
         }
-
         // ============ SONG FILE CACHE ============
         const songFileCache = new Map();  // Stores the raw text content of each folderX.js
 
@@ -3158,6 +3389,87 @@
                 hideDownloadModal();
             }
         });
+
+        // ══════════════════════════════════════════════
+        // FOLDER PICKER
+        // ══════════════════════════════════════════════
+        let _pickerSong = null;
+        let _pickerBtn = null;
+
+        function openFolderPicker(song, btnEl) {
+            _pickerSong = song;
+            _pickerBtn = btnEl;
+
+            const modal = document.getElementById('folderPickerModal');
+            const list = document.getElementById('folderPickerList');
+            if (!modal || !list) return;
+
+            const customFolders = foldersList.filter(f => f.isCustomFolder);
+
+            if (customFolders.length === 0) {
+                list.innerHTML = '<div class="folder-picker-empty">No folders yet — create one below.</div>';
+            } else {
+                list.innerHTML = '';
+                customFolders.forEach(folder => {
+                    const item = document.createElement('div');
+                    item.className = 'folder-picker-item';
+                    if (isSongInCustomFolder(song, folder.id)) item.classList.add('checked');
+                    item.innerHTML = `
+                <div class="folder-picker-check"></div>
+                <div class="folder-picker-item-name">${escapeHtml(folder.name)}</div>
+            `;
+                    item.addEventListener('click', () => {
+                        const added = toggleSongInCustomFolder(song, folder.id);
+                        item.classList.toggle('checked', added);
+                        showToast(added ? `Added to "${folder.name}"` : `Removed from "${folder.name}"`, 1500);
+
+                        if (_pickerBtn) {
+                            _pickerBtn.innerHTML = getBookmarkIcon(isSongInAnyCustomFolder(song));
+                        }
+                        if (currentFolder && currentFolder.isCustomFolder && currentFolder.id === folder.id) {
+                            setTimeout(() => openFolder(currentFolder), 150);
+                        }
+                    });
+                    list.appendChild(item);
+                });
+            }
+
+            modal.classList.add('active');
+        }
+
+        function closeFolderPicker() {
+            const modal = document.getElementById('folderPickerModal');
+            if (modal) modal.classList.remove('active');
+            _pickerSong = null;
+            _pickerBtn = null;
+        }
+
+        (function wireFolderPicker() {
+            const bind = () => {
+                const modal = document.getElementById('folderPickerModal');
+                const createBtn = document.getElementById('folderPickerCreateBtn');
+                const closeBtn = document.getElementById('folderPickerCloseBtn');
+                if (!modal) return;
+
+                createBtn?.addEventListener('click', () => {
+                    const song = _pickerSong;
+                    closeFolderPicker();
+                    window._pendingSongForNewFolder = song;
+                    openNewFolderModal();
+                });
+
+                closeBtn?.addEventListener('click', closeFolderPicker);
+
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) closeFolderPicker();
+                });
+            };
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', bind);
+            } else {
+                bind();
+            }
+        })();
 
 
         // ============ LOAD FOLDERS ============
@@ -3657,6 +3969,12 @@
                     try {
                         const remaining = getCustomFolders().filter(f => f.id !== id);
                         saveCustomFolders(remaining);
+                        // 1b. Also remove songs stored for this folder
+                        try {
+                            const map = getCustomFolderSongsMap();
+                            delete map[id];
+                            saveCustomFolderSongsMap(map);
+                        } catch (e) { console.error('Failed to clear folder songs:', e); }
                     } catch (err) {
                         console.error('Failed to update custom folders:', err);
                     }
@@ -3790,6 +4108,39 @@
                 }
 
                 return; // stop further execution
+            }
+
+            // ─── Custom folders ───
+            if (folder.isCustomFolder) {
+                foldersView.style.display = 'none';
+                songsView.style.display = 'block';
+                backBtn.style.display = 'flex';
+                currentFolderName.innerText = folder.name;
+                history.pushState(null, '', '#' + encodeURIComponent(folder.name));
+                sessionStorage.setItem('currentFolderName', folder.name);
+
+                const folderSongs = getSongsInCustomFolder(folder.id);
+                allSongs = folderSongs.map((song, index) => ({
+                    ...song,
+                    id: song.id || index,
+                    album: song.album || folder.name,
+                    cover_url: song.cover_url || 'logo.png',
+                    lyricsUrl: song.lyricsUrl || ''
+                }));
+                currentSongIndex = -1;
+
+                if (allSongs.length === 0) {
+                    songsContainer.innerHTML = `
+            <div style="text-align:center; padding:40px; color:#888;">
+                <img src="svg/bookmark.svg" alt="Empty"
+                     style="width: 59px; height: 59px; display:block; margin:0 auto 16px; filter: brightness(0) invert(1); opacity: 0.5;">
+                <div style="font-size:18px; color:#1DB954; font-weight:600;">No songs in this folder yet</div>
+                <div style="font-size:14px; margin-top:8px;">Tap the bookmark icon on any song to add it here</div>
+            </div>`;
+                } else {
+                    renderSongs(allSongs, false);
+                }
+                return;
             }
 
             sessionStorage.setItem('currentFolderName', folder.name);   // ✅ new
@@ -4431,11 +4782,14 @@
                 <div class="song-artist">${escapeHtml(song.artist)}</div>
             </div>
         </div>
-        <div class="song-like">
-            <span class="like-btn" data-url="${song.url}">
-                ${getLikeIcon(isSongLiked(song))}   
-            </span>
-        </div>
+<div class="song-like">
+    <span class="bookmark-btn" data-url="${song.url}">
+        ${getBookmarkIcon(isSongInAnyCustomFolder(song))}
+    </span>
+    <span class="like-btn" data-url="${song.url}">
+        ${getLikeIcon(isSongLiked(song))}   
+    </span>
+</div>
     `;
 
                 // --- click to play the song ---
@@ -4455,6 +4809,12 @@
                     if (currentFolder && currentFolder.isLikedFolder) {
                         openFolder(currentFolder);
                     }
+                });
+                // --- click on the bookmark (add/remove from custom folders) ---
+                const bookmarkBtn = row.querySelector('.bookmark-btn');
+                bookmarkBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openFolderPicker(song, bookmarkBtn);
                 });
 
                 songsContainer.appendChild(row);
