@@ -28,6 +28,8 @@
             background: #050505;
             color: white;
             overflow: hidden;
+            overscroll-behavior: contain;
+            /* ← add this line */
         }
 
         ::-webkit-scrollbar {
@@ -696,6 +698,8 @@
             overflow-y: hidden;
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
+            overscroll-behavior-x: contain;
+            /* new — stops page-level bounce when row hits end */
             padding: 4px 6px 10px 6px;
             scrollbar-width: none;
             -ms-overflow-style: none;
@@ -703,6 +707,15 @@
 
         .folder-row::-webkit-scrollbar {
             display: none;
+        }
+
+        /* Allow horizontal swipe inside folder rows (overrides the global
+   "touch-action: pan-y pinch-zoom" set on *) */
+        .folder-row,
+        .folder-row .folder-card,
+        .folder-row .folder-card img,
+        .folder-row .folder-card h4 {
+            touch-action: pan-x pan-y;
         }
 
         .search-results-header {
@@ -1309,6 +1322,8 @@
                 gap: 12px;
                 scroll-snap-type: x mandatory;
                 -webkit-overflow-scrolling: touch;
+                overscroll-behavior-x: contain;
+                /* new — stops page-level bounce when row hits end */
                 padding: 4px 4px 10px 4px;
                 scrollbar-width: none;
                 /* Firefox */
