@@ -676,10 +676,12 @@
             font-size: 16px;
             font-weight: 600;
             color: #fff;
-            margin: 0 0 12px 4px;
+            margin: 0;
+            /* ← was 0 0 12px 4px */
             display: flex;
             align-items: center;
             gap: 8px;
+            flex-shrink: 0;
         }
 
         .folder-section-title::before {
@@ -2051,6 +2053,155 @@
                 right: -2px;
             }
         }
+
+        /* ── Per-section folder search ── */
+
+        /* Header row that holds: [title] [icon] [search-box] */
+        .folder-section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0 0 12px 0;
+            flex-wrap: wrap;
+        }
+
+        /* Search icon toggle button (always visible) */
+        /* Search icon toggle button (always visible) — no bg, no border */
+        .section-search-toggle {
+            background: transparent;
+            border: none;
+            outline: none;
+            border-radius: 0;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.15s;
+            padding: 0;
+            flex-shrink: 0;
+            opacity: 0.85;
+        }
+
+        .section-search-toggle img {
+            width: 22px;
+            height: 22px;
+            filter: brightness(0) invert(1);
+            pointer-events: none;
+            -webkit-user-drag: none;
+            display: block;
+        }
+
+        .section-search-toggle:hover,
+        .section-search-toggle:active {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .section-search-toggle.active img {
+            filter: brightness(0) saturate(100%) invert(50%) sepia(50%) saturate(521%) hue-rotate(93deg) brightness(100%) contrast(90%);
+        }
+
+
+        /* Search box — HIDDEN by default, shown when .visible is added */
+        .folder-section-search {
+            position: relative;
+            display: none;
+            margin: 0;
+            min-width: 180px;
+        }
+
+        .folder-section-search.visible {
+            display: block;
+        }
+
+        .folder-section-search input {
+            width: 100%;
+            padding: 8px 36px 8px 14px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            outline: none;
+            color: white;
+            font-size: 12px;
+            font-family: 'Poppins', sans-serif;
+            transition: 0.2s;
+            -webkit-user-select: text;
+            user-select: text;
+        }
+
+        .folder-section-search input:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #1DB954;
+        }
+
+        .folder-section-search input::placeholder {
+            color: #666;
+            font-size: 11px;
+        }
+
+        .section-search-clear {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .section-search-clear.visible {
+            display: flex;
+        }
+
+        .section-search-clear:active {
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        .section-search-clear::before,
+        .section-search-clear::after {
+            content: '';
+            position: absolute;
+            width: 9px;
+            height: 1.5px;
+            background: white;
+            border-radius: 1px;
+        }
+
+        .section-search-clear::before {
+            transform: rotate(45deg);
+        }
+
+        .section-search-clear::after {
+            transform: rotate(-45deg);
+        }
+
+        /* ── DESKTOP (≥ 769px): search box sits inline, to the right of the icon ── */
+        @media (min-width: 769px) {
+            .folder-section-search.visible {
+                flex: 1;
+                max-width: 320px;
+                min-width: 220px;
+            }
+        }
+
+        /* ── MOBILE (≤ 768px): search box drops to next line, FULL WIDTH ── */
+        @media (max-width: 768px) {
+            .folder-section-search.visible {
+                flex-basis: 100%;
+                /* force wrap to new line */
+                max-width: 100%;
+                min-width: 100%;
+                margin-top: 4px;
+            }
+        }
     </style>
 </head>
 
@@ -2268,6 +2419,7 @@
             { title: "Top Artist", folderIds: [12, 13] }
         ];
 
+
         function getLikedSongs() {
             try {
                 return JSON.parse(localStorage.getItem(LIKED_STORAGE_KEY)) || [];
@@ -2468,12 +2620,12 @@
                     }
                 };
                 script.onerror = () => {
-                    foldersView.innerHTML = '<div style="text-align:center; padding:40px;">Error loading folders. Please check folders.js file.</div>';
+                    foldersView.innerHTML = '<div style="text-align:center; padding:40px;">Error Please Reload.</div>';
                 };
                 document.head.appendChild(script);
             } catch (e) {
                 console.error('Error loading folders:', e);
-                foldersView.innerHTML = '<div style="text-align:center; padding:40px;">Error loading folders</div>';
+                foldersView.innerHTML = '<div style="text-align:center; padding:40px;">Error Please Reload.</div>';
             }
         }
 
@@ -2551,36 +2703,88 @@
                 const sectionEl = document.createElement('div');
                 sectionEl.className = 'folder-section';
 
+                // ── Header row: [title] [search-icon-toggle] [search-box] ──
+                const headerEl = document.createElement('div');
+                headerEl.className = 'folder-section-header';
+
+                // Title
                 const titleEl = document.createElement('div');
                 titleEl.className = 'folder-section-title';
                 titleEl.textContent = section.title;
-                sectionEl.appendChild(titleEl);
+                headerEl.appendChild(titleEl);
+
+                // Search toggle icon
+                const toggleBtn = document.createElement('button');
+                toggleBtn.className = 'section-search-toggle';
+                toggleBtn.setAttribute('aria-label', 'Search in ' + section.title);
+                toggleBtn.innerHTML = '<img src="svg/folder-search.svg" alt="Search">';
+                headerEl.appendChild(toggleBtn);
+
+                // Search box (hidden by default)
+                const searchWrap = document.createElement('div');
+                searchWrap.className = 'folder-section-search';
+
+                const searchIn = document.createElement('input');
+                searchIn.type = 'text';
+                searchIn.placeholder = `Search in ${section.title}...`;
+                searchIn.setAttribute('autocomplete', 'off');
+                searchIn.setAttribute('autocorrect', 'off');
+                searchIn.setAttribute('spellcheck', 'false');
+
+                const clearBtn = document.createElement('div');
+                clearBtn.className = 'section-search-clear';
+                clearBtn.setAttribute('aria-label', 'Clear search');
+
+                searchWrap.appendChild(searchIn);
+                searchWrap.appendChild(clearBtn);
+                headerEl.appendChild(searchWrap);
+
+                sectionEl.appendChild(headerEl);
+
+                // ── Toggle search box visibility when icon is clicked ──
+                toggleBtn.addEventListener('click', () => {
+                    const willBeVisible = !searchWrap.classList.contains('visible');
+
+                    // 🔒 Close ALL other section search boxes first
+                    document.querySelectorAll('.folder-section-search.visible').forEach(otherBox => {
+                        if (otherBox === searchWrap) return;   // skip ourselves
+                        otherBox.classList.remove('visible');
+
+                        // Clear the input & reset its row
+                        const otherInput = otherBox.querySelector('input');
+                        const otherClear = otherBox.querySelector('.section-search-clear');
+                        if (otherInput) {
+                            otherInput.value = '';
+                            // trigger the input listener so the row resets to full list
+                            otherInput.dispatchEvent(new Event('input'));
+                        }
+                        if (otherClear) otherClear.classList.remove('visible');
+                    });
+
+                    // 🔓 Also deactivate every other toggle button
+                    document.querySelectorAll('.section-search-toggle.active').forEach(otherBtn => {
+                        if (otherBtn !== toggleBtn) otherBtn.classList.remove('active');
+                    });
+
+                    // Now toggle OUR box
+                    if (willBeVisible) {
+                        searchWrap.classList.add('visible');
+                        toggleBtn.classList.add('active');
+                        setTimeout(() => searchIn.focus(), 50);
+                    } else {
+                        searchWrap.classList.remove('visible');
+                        toggleBtn.classList.remove('active');
+                        searchIn.value = '';
+                        applySearch();
+                    }
+                });
+
+                // ── Row wrapper (with arrows) ──
+                const rowWrapper = document.createElement('div');
+                rowWrapper.className = 'folder-row-wrapper';
 
                 const rowEl = document.createElement('div');
                 rowEl.className = 'folder-row';
-
-                sectionFolders.forEach(folder => {
-                    const folderCard = document.createElement('div');
-                    folderCard.className = 'folder-card';
-
-                    let colorId;
-                    if (folder.isLikedFolder) colorId = 4;
-                    else colorId = ((folder.id - 1) % 10) + 1;
-                    folderCard.setAttribute('data-color', colorId);
-
-                    folderCard._folder = folder;
-
-                    const folderImage = folder.folderCover || 'svg/folder.svg';
-                    folderCard.innerHTML = `
-                <img src="${folderImage}" alt="${folder.name}" onerror="this.src='svg/folder.svg'">
-                <h4>${escapeHtml(folder.name)}</h4>
-            `;
-                    folderCard.addEventListener('click', () => openFolder(folder));
-                    rowEl.appendChild(folderCard);
-                });
-                // Wrap the row with left/right arrow controls
-                const rowWrapper = document.createElement('div');
-                rowWrapper.className = 'folder-row-wrapper';
 
                 const leftBtn = document.createElement('button');
                 leftBtn.className = 'folder-scroll-btn left';
@@ -2604,27 +2808,92 @@
                 rowWrapper.appendChild(rowEl);
                 rowWrapper.appendChild(rightBtn);
 
-                // Show/hide arrows based on scroll position
+                // ── Arrow visibility ──
                 function updateArrowState() {
                     const maxScroll = rowEl.scrollWidth - rowEl.clientWidth;
-                    if (rowEl.scrollLeft <= 4) {
-                        leftBtn.classList.add('hidden');
-                    } else {
-                        leftBtn.classList.remove('hidden');
-                    }
-                    if (rowEl.scrollLeft >= maxScroll - 4) {
-                        rightBtn.classList.add('hidden');
-                    } else {
-                        rightBtn.classList.remove('hidden');
-                    }
-                    // If the whole row fits without scrolling, hide both
+                    if (rowEl.scrollLeft <= 4) leftBtn.classList.add('hidden');
+                    else leftBtn.classList.remove('hidden');
+
+                    if (rowEl.scrollLeft >= maxScroll - 4) rightBtn.classList.add('hidden');
+                    else rightBtn.classList.remove('hidden');
+
                     if (maxScroll <= 4) {
                         leftBtn.classList.add('hidden');
                         rightBtn.classList.add('hidden');
                     }
                 }
+
+                // ── Render a list of folder cards into the row ──
+                function renderRowCards(list) {
+                    rowEl.innerHTML = '';
+
+                    if (list.length === 0) {
+                        const empty = document.createElement('div');
+                        empty.style.cssText = 'padding:20px 10px; color:#666; font-size:13px; width:100%; text-align:center; font-style:italic;';
+                        empty.textContent = 'No folders match your search';
+                        rowEl.appendChild(empty);
+                    } else {
+                        list.forEach(folder => {
+                            const folderCard = document.createElement('div');
+                            folderCard.className = 'folder-card';
+
+                            let colorId;
+                            if (folder.isLikedFolder) colorId = 4;
+                            else colorId = ((folder.id - 1) % 10) + 1;
+                            folderCard.setAttribute('data-color', colorId);
+
+                            folderCard._folder = folder;
+
+                            const folderImage = folder.folderCover || 'svg/folder.svg';
+                            folderCard.innerHTML = `
+                        <img src="${folderImage}" alt="${folder.name}" onerror="this.src='svg/folder.svg'">
+                        <h4>${escapeHtml(folder.name)}</h4>
+                    `;
+                            folderCard.addEventListener('click', () => openFolder(folder));
+                            rowEl.appendChild(folderCard);
+                        });
+                    }
+
+                    // Preserve the "playing" dotted-border state on the currently playing folder
+                    if (typeof activeFolderId !== 'undefined' && activeFolderId !== null) {
+                        rowEl.querySelectorAll('.folder-card').forEach(card => {
+                            if (card._folder && card._folder.id === activeFolderId) {
+                                card.classList.add('playing');
+                            }
+                        });
+                    }
+
+                    // Recalc arrow visibility after DOM change
+                    setTimeout(updateArrowState, 0);
+                }
+
+                // Initial paint
+                renderRowCards(sectionFolders);
+
+                // ── Search behaviour ──
+                function applySearch() {
+                    const q = searchIn.value.toLowerCase().trim();
+                    if (q === '') {
+                        clearBtn.classList.remove('visible');
+                        renderRowCards(sectionFolders);
+                    } else {
+                        clearBtn.classList.add('visible');
+                        const filtered = sectionFolders.filter(f =>
+                            f.name.toLowerCase().includes(q)
+                        );
+                        renderRowCards(filtered);
+                    }
+                }
+
+                searchIn.addEventListener('input', applySearch);
+
+                clearBtn.addEventListener('click', () => {
+                    searchIn.value = '';
+                    applySearch();
+                    searchIn.focus();
+                });
+
                 rowEl.addEventListener('scroll', updateArrowState, { passive: true });
-                // Call once after layout to set initial state
                 setTimeout(updateArrowState, 0);
                 window.addEventListener('resize', updateArrowState);
 
