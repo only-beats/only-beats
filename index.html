@@ -2612,9 +2612,28 @@
             width: 60px;
             height: 60px;
             border-radius: 8px;
-            object-fit: cover;
             flex-shrink: 0;
             background: #222;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .folder-menu-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Override the base .folder-collage size so it fills the menu cover */
+        .folder-menu-cover .folder-collage {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            border-radius: 0;
+            gap: 0px;
         }
 
         .folder-menu-header-text {
@@ -2706,6 +2725,58 @@
         .new-folder-desc::placeholder {
             color: rgba(255, 255, 255, 0.3);
             font-size: 12px;
+        }
+
+
+        /* ── Custom folder cover (song art) ── */
+        .folder-card .folder-single-cover {
+            width: 85px;
+            height: 85px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            flex-shrink: 0;
+        }
+
+        .folder-collage {
+            width: 85px;
+            height: 85px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 0px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 8px;
+            flex-shrink: 0;
+            background: #222;
+        }
+
+        .folder-collage img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover;
+            margin: 0 !important;
+            border-radius: 0 !important;
+        }
+
+        /* Mobile sizing to match existing folder-card img rules */
+        @media (max-width: 768px) {
+
+            .folder-card .folder-single-cover,
+            .folder-collage {
+                width: 62px;
+                height: 62px;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            .folder-card .folder-single-cover,
+            .folder-collage {
+                width: 70px;
+                height: 70px;
+            }
         }
     </style>
 </head>
@@ -2895,7 +2966,8 @@
     <div id="folderMenuModal" class="folder-menu-overlay">
         <div class="folder-menu-panel">
             <div class="folder-menu-header">
-                <img id="folderMenuCover" class="folder-menu-cover" src="logo.png" alt="cover">
+                <!-- <img id="folderMenuCover" class="folder-menu-cover" src="logo.png" alt="cover"> -->
+                <div id="folderMenuCover" class="folder-menu-cover"></div>
                 <div class="folder-menu-header-text">
                     <h3 id="folderMenuName">Folder</h3>
                     <p id="folderMenuSubtitle">Add a description</p>
@@ -3232,6 +3304,7 @@
             if (pendingSong) {
                 toggleSongInCustomFolder(pendingSong, newFolder.id);
                 if (currentFolder && allSongs.length > 0) renderSongs(allSongs, false);
+                renderFolders(foldersList);   // 👈 refresh covers
                 showToast(`Added to "${name}"`, 2000);
             } else {
                 showToast(`Folder "${name}" created`, 2000);
@@ -3426,6 +3499,8 @@
                         if (_pickerBtn) {
                             _pickerBtn.innerHTML = getBookmarkIcon(isSongInAnyCustomFolder(song));
                         }
+                        // Refresh folder cards so covers update live
+                        renderFolders(foldersList);
                         if (currentFolder && currentFolder.isCustomFolder && currentFolder.id === folder.id) {
                             setTimeout(() => openFolder(currentFolder), 150);
                         }
@@ -3795,11 +3870,34 @@
 
                             folderCard._folder = folder;
 
-                            const folderImage = folder.folderCover || 'svg/folder.svg';
+                            let coverHtml;
+                            if (folder.isCustomFolder) {
+                                const folderSongs = getSongsInCustomFolder(folder.id);
+
+                                if (folderSongs.length === 0) {
+                                    // Empty custom folder → default folder icon
+                                    coverHtml = `<img src="svg/folder.svg" alt="${folder.name}">`;
+                                } else if (folderSongs.length < 4) {
+                                    // 1–3 songs → single cover (first song)
+                                    const cover = folderSongs[0].cover_url || 'logo.png';
+                                    coverHtml = `<img class="folder-single-cover" src="${cover}" alt="${folder.name}" onerror="this.src='logo.png'">`;
+                                } else {
+                                    // 4+ songs → 2×2 collage of first 4 covers
+                                    const covers = folderSongs.slice(0, 4).map(s =>
+                                        `<img src="${s.cover_url || 'logo.png'}" onerror="this.src='logo.png'">`
+                                    ).join('');
+                                    coverHtml = `<div class="folder-collage">${covers}</div>`;
+                                }
+                            } else {
+                                // Liked Songs / built-in folders → unchanged
+                                const folderImage = folder.folderCover || 'svg/folder.svg';
+                                coverHtml = `<img src="${folderImage}" alt="${folder.name}" onerror="this.src='svg/folder.svg'">`;
+                            }
+
                             folderCard.innerHTML = `
-                        <img src="${folderImage}" alt="${folder.name}" onerror="this.src='svg/folder.svg'">
-                        <h4>${escapeHtml(folder.name)}</h4>
-                    `;
+    ${coverHtml}
+    <h4>${escapeHtml(folder.name)}</h4>
+`;
                             folderCard.addEventListener('click', () => openFolder(folder));
                             rowEl.appendChild(folderCard);
                         });
@@ -3905,12 +4003,23 @@
                     if (!currentFolder) return;
 
                     // Cover = FIRST SONG's cover art
-                    let coverUrl = 'logo.png';
-                    if (Array.isArray(allSongs) && allSongs.length > 0 && allSongs[0].cover_url) {
-                        coverUrl = allSongs[0].cover_url;
+                    // Build cover using the SAME logic as folder cards
+                    let coverHtml;
+                    if (!Array.isArray(allSongs) || allSongs.length === 0) {
+                        // Empty → default
+                        coverHtml = `<img src="logo.png" alt="cover">`;
+                    } else if (allSongs.length < 4) {
+                        // 1–3 songs → single cover (first song)
+                        const cover = allSongs[0].cover_url || 'logo.png';
+                        coverHtml = `<img src="${cover}" alt="cover" onerror="this.src='logo.png'">`;
+                    } else {
+                        // 4+ songs → 2×2 collage of first 4 covers
+                        const covers = allSongs.slice(0, 4).map(s =>
+                            `<img src="${s.cover_url || 'logo.png'}" onerror="this.src='logo.png'">`
+                        ).join('');
+                        coverHtml = `<div class="folder-collage">${covers}</div>`;
                     }
-                    coverEl.src = coverUrl;
-                    coverEl.onerror = () => { coverEl.src = 'logo.png'; };
+                    coverEl.innerHTML = coverHtml;
 
                     nameEl.textContent = currentFolder.name;
                     subtitleEl.textContent = currentFolder.description
