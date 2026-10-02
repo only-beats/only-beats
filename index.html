@@ -611,12 +611,7 @@
             border-color: #1DB954;
         }
 
-        .folders-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 20px;
-            margin-top: 10px;
-        }
+
 
         /* Fixed size folder cards - all boxes will be identical dimensions */
         .folder-card {
@@ -628,7 +623,8 @@
             transition: all 0.2s;
             border: 1px solid rgba(255, 255, 255, 0.05);
             /* FIXED SIZE - all cards exactly same dimensions */
-            width: 100%;
+            flex: 0 0 160px;
+            scroll-snap-align: start;
             height: 180px;
             display: flex;
             flex-direction: column;
@@ -662,6 +658,51 @@
             -webkit-box-orient: vertical;
             line-height: 1.3;
             word-break: break-word;
+        }
+
+        /* Container for all sections */
+        #foldersView {
+            display: block;
+            margin-top: 10px;
+        }
+
+        .folder-section {
+            margin-bottom: 26px;
+        }
+
+        .folder-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            margin: 0 0 12px 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .folder-section-title::before {
+            content: '';
+            width: 3px;
+            height: 16px;
+            background: #1DB954;
+            border-radius: 2px;
+        }
+
+        .folder-row {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 12px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding: 4px 6px 10px 6px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .folder-row::-webkit-scrollbar {
+            display: none;
         }
 
         .search-results-header {
@@ -1259,6 +1300,43 @@
                 width: 20px;
                 height: 20px;
             }
+
+            .folder-row {
+                display: flex;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                overflow-y: hidden;
+                gap: 12px;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                padding: 4px 4px 10px 4px;
+                scrollbar-width: none;
+                /* Firefox */
+                -ms-overflow-style: none;
+                /* old Edge */
+            }
+
+            .folder-row::-webkit-scrollbar {
+                display: none;
+                /* Chrome/Safari */
+            }
+
+            .folder-card {
+                flex: 0 0 calc((100% - 24px) / 3);
+                scroll-snap-align: start;
+                height: 160px;
+                padding: 10px;
+            }
+
+            .folder-card img {
+                width: 62px;
+                height: 62px;
+            }
+
+            .folder-card h4 {
+                font-size: 11px;
+                max-height: 30px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1275,10 +1353,6 @@
                 right: 2px;
             }
 
-            .folders-grid {
-                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-                gap: 16px;
-            }
 
             .folder-card {
                 height: 160px;
@@ -1483,24 +1557,22 @@
                 margin-top: 12px;
             }
 
-            .folders-grid {
-                grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-                gap: 12px;
-            }
+
 
             .folder-card {
+                flex: 0 0 calc((100% - 20px) / 3);
                 height: 140px;
-                padding: 10px;
+                padding: 8px;
             }
 
             .folder-card img {
-                width: 70px;
-                height: 70px;
+                width: 54px;
+                height: 54px;
             }
 
             .folder-card h4 {
-                font-size: 11px;
-                max-height: 32px;
+                font-size: 10px;
+                max-height: 28px;
             }
 
             .buttons button {
@@ -1886,6 +1958,78 @@
             cursor: pointer;
             font-size: 18px;
         }
+
+        /* ── Folder row scroll arrows ── */
+        .folder-row-wrapper {
+            position: relative;
+        }
+
+        .folder-scroll-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 5;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.55);
+            border: 1.5px solid rgba(29, 185, 84, 0.65);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            opacity: 0.55;
+            padding: 0;
+        }
+
+        .folder-scroll-btn.left {
+            left: -6px;
+        }
+
+        .folder-scroll-btn.right {
+            right: -6px;
+        }
+
+        .folder-scroll-btn img {
+            width: 20px;
+            height: 20px;
+            filter: brightness(0) invert(1);
+            pointer-events: none;
+            -webkit-user-drag: none;
+            display: block;
+        }
+
+
+
+        .folder-scroll-btn:disabled,
+        .folder-scroll-btn.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Mobile tweak — smaller arrows */
+        @media (max-width: 480px) {
+            .folder-scroll-btn {
+                width: 32px;
+                height: 32px;
+            }
+
+            .folder-scroll-btn img {
+                width: 16px;
+                height: 16px;
+            }
+
+            .folder-scroll-btn.left {
+                left: -2px;
+            }
+
+            .folder-scroll-btn.right {
+                right: -2px;
+            }
+        }
     </style>
 </head>
 
@@ -1924,7 +2068,7 @@
         </div>
 
         <div class="main">
-            <div id="foldersView" class="folders-grid"></div>
+            <div id="foldersView"></div>
             <div id="songsView" style="display: none;">
                 <div class="section-title">
                     <div class="title-left">
@@ -2097,6 +2241,11 @@
 
 
         const LIKED_STORAGE_KEY = 'onlyBeatsLikedSongs';
+        const FOLDER_SECTIONS = [
+            { title: "Your Folder", folderIds: [0] },
+            { title: "Top Mix Folder", folderIds: [1, 4, 10, 3, 2, 5, 6, 7, 8, 9, 11] },
+            { title: "Top Artist", folderIds: [12, 13] }
+        ];
 
         function getLikedSongs() {
             try {
@@ -2366,28 +2515,100 @@
 
         function renderFolders(folders) {
             foldersView.innerHTML = '';
-            folders.forEach(folder => {
-                const folderCard = document.createElement('div');
-                folderCard.className = 'folder-card';
-                let colorId;
-                if (folder.isLikedFolder) {
-                    colorId = 4; // ✅ Use green color scheme (same as data-color="4")
+
+            FOLDER_SECTIONS.forEach(section => {
+                let sectionFolders;
+                if (section.folderIds === 'all') {
+                    sectionFolders = folders;
                 } else {
-                    colorId = ((folder.id - 1) % 10) + 1;
+                    sectionFolders = section.folderIds
+                        .map(id => folders.find(f => f.id === id))
+                        .filter(Boolean);
                 }
-                folderCard.setAttribute('data-color', colorId);
+                if (sectionFolders.length === 0) return;
 
-                // Store folder reference
-                folderCard._folder = folder;
+                const sectionEl = document.createElement('div');
+                sectionEl.className = 'folder-section';
 
-                const folderImage = folder.folderCover || 'svg/folder.svg';
+                const titleEl = document.createElement('div');
+                titleEl.className = 'folder-section-title';
+                titleEl.textContent = section.title;
+                sectionEl.appendChild(titleEl);
 
-                folderCard.innerHTML = `
-            <img src="${folderImage}" alt="${folder.name}" onerror="this.src='svg/folder.svg'">
-            <h4>${escapeHtml(folder.name)}</h4>
-        `;
-                folderCard.addEventListener('click', () => openFolder(folder));
-                foldersView.appendChild(folderCard);
+                const rowEl = document.createElement('div');
+                rowEl.className = 'folder-row';
+
+                sectionFolders.forEach(folder => {
+                    const folderCard = document.createElement('div');
+                    folderCard.className = 'folder-card';
+
+                    let colorId;
+                    if (folder.isLikedFolder) colorId = 4;
+                    else colorId = ((folder.id - 1) % 10) + 1;
+                    folderCard.setAttribute('data-color', colorId);
+
+                    folderCard._folder = folder;
+
+                    const folderImage = folder.folderCover || 'svg/folder.svg';
+                    folderCard.innerHTML = `
+                <img src="${folderImage}" alt="${folder.name}" onerror="this.src='svg/folder.svg'">
+                <h4>${escapeHtml(folder.name)}</h4>
+            `;
+                    folderCard.addEventListener('click', () => openFolder(folder));
+                    rowEl.appendChild(folderCard);
+                });
+                // Wrap the row with left/right arrow controls
+                const rowWrapper = document.createElement('div');
+                rowWrapper.className = 'folder-row-wrapper';
+
+                const leftBtn = document.createElement('button');
+                leftBtn.className = 'folder-scroll-btn left';
+                leftBtn.setAttribute('aria-label', 'Scroll left');
+                leftBtn.innerHTML = '<img src="svg/arrow-big-left.svg" alt="Left">';
+                leftBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    rowEl.scrollBy({ left: -rowEl.clientWidth * 0.85, behavior: 'smooth' });
+                });
+
+                const rightBtn = document.createElement('button');
+                rightBtn.className = 'folder-scroll-btn right';
+                rightBtn.setAttribute('aria-label', 'Scroll right');
+                rightBtn.innerHTML = '<img src="svg/arrow-big-right.svg" alt="Right">';
+                rightBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    rowEl.scrollBy({ left: rowEl.clientWidth * 0.85, behavior: 'smooth' });
+                });
+
+                rowWrapper.appendChild(leftBtn);
+                rowWrapper.appendChild(rowEl);
+                rowWrapper.appendChild(rightBtn);
+
+                // Show/hide arrows based on scroll position
+                function updateArrowState() {
+                    const maxScroll = rowEl.scrollWidth - rowEl.clientWidth;
+                    if (rowEl.scrollLeft <= 4) {
+                        leftBtn.classList.add('hidden');
+                    } else {
+                        leftBtn.classList.remove('hidden');
+                    }
+                    if (rowEl.scrollLeft >= maxScroll - 4) {
+                        rightBtn.classList.add('hidden');
+                    } else {
+                        rightBtn.classList.remove('hidden');
+                    }
+                    // If the whole row fits without scrolling, hide both
+                    if (maxScroll <= 4) {
+                        leftBtn.classList.add('hidden');
+                        rightBtn.classList.add('hidden');
+                    }
+                }
+                rowEl.addEventListener('scroll', updateArrowState, { passive: true });
+                // Call once after layout to set initial state
+                setTimeout(updateArrowState, 0);
+                window.addEventListener('resize', updateArrowState);
+
+                sectionEl.appendChild(rowWrapper);
+                foldersView.appendChild(sectionEl);
             });
         }
 
@@ -2595,7 +2816,7 @@
         }
 
         function goBackToFolders() {
-            foldersView.style.display = 'grid';
+            foldersView.style.display = 'block';     // ← block, not grid
             songsView.style.display = 'none';
             searchResultsView.style.display = 'none';
             backBtn.style.display = 'none';
@@ -2632,7 +2853,7 @@
 
             if (query === '') {
                 if (!currentFolder) {
-                    foldersView.style.display = 'grid';
+                    foldersView.style.display = 'block'; // ← block, not grid
                     songsView.style.display = 'none';
                     searchResultsView.style.display = 'none';
                 } else {
