@@ -635,7 +635,6 @@
             overflow: hidden;
         }
 
-        /* Ensure consistent image size */
         /* Ensure consistent image size - INCREASED SIZE */
         .folder-card img {
             width: 90px;
@@ -2295,7 +2294,7 @@
 
         .folder-section-search input:focus {
             background: rgba(255, 255, 255, 0.1);
-            border-color: #1DB954;
+            border-color: #1db9548e;
         }
 
         .folder-section-search input::placeholder {
@@ -2368,8 +2367,8 @@
         /* ── Add Custom Folder card ("+") ── */
         .add-folder-card {
             cursor: pointer;
-            border: 2px dashed rgba(29, 185, 84, 0.5) !important;
-            background: rgba(29, 185, 84, 0.05) !important;
+            border: 2px dashed rgba(131, 131, 131, 0.5) !important;
+            background: rgba(72, 72, 72, 0.342) !important;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -2379,30 +2378,35 @@
         .add-folder-card .add-folder-icon {
             width: 85px;
             height: 85px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 56px;
-            font-weight: 200;
-            color: #1DB954;
-            line-height: 1;
+            object-fit: contain;
             margin-bottom: 8px;
-            border-radius: 50%;
-            border: 3px dashed rgba(29, 185, 84, 0.5);
-            transition: all 0.2s;
-            padding-bottom: 4px;
-            /* Pull the "+" visually centered */
+            flex-shrink: 0;
+            transition: transform 0.2s ease;
+            pointer-events: none;
+            -webkit-user-drag: none;
         }
 
         .add-folder-card:hover .add-folder-icon,
         .add-folder-card:active .add-folder-icon {
-            background: rgba(29, 185, 84, 0.18);
-            border-color: #1DB954;
             transform: scale(1.06);
         }
 
+        @media (max-width: 768px) {
+            .add-folder-card .add-folder-icon {
+                width: 62px;
+                height: 62px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .add-folder-card .add-folder-icon {
+                width: 70px;
+                height: 70px;
+            }
+        }
+
         .add-folder-card h4 {
-            color: #1DB954 !important;
+            color: #777777 !important;
         }
 
         /* Delete button inside empty custom folder */
@@ -3960,14 +3964,14 @@
                         });
                     }
 
-                    // ➕ Add "New Folder" card at the end (only for sections flagged includeCustom)
                     // ➕ Add "New Folder" card — always right after the Liked Songs folder
                     if (section.includeCustom) {
                         const addCard = document.createElement('div');
                         addCard.className = 'folder-card add-folder-card';
                         addCard.setAttribute('data-color', '4');
                         addCard.innerHTML = `
-        <div class="add-folder-icon">+</div>
+        <img class="add-folder-icon" src="svg/plus-circle.svg" alt="New Folder"
+             onerror="this.src='svg/folder.svg'">
         <h4>New Folder</h4>
     `;
                         addCard.addEventListener('click', (e) => {
