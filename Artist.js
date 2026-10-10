@@ -9,12 +9,16 @@ const ARTIST_IMAGES = {
     "Alan Walker": "https://image-cdn-ak.spotifycdn.com/image/ab6761610000f178572a8eae56feae217f618078",
     "Alka Yagnik": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da8499aa4e2e1a5039e61b909783",
     "Amaal Mallik": "https://image-cdn-ak.spotifycdn.com/image/ab6761610000f178363d9b8ebe3df4a4ce2d91e0",
+    "Amit Trivedi": "https://image-cdn-ak.spotifycdn.com/image/ab6761610000f178a37271f7a4862a6e99ce345f",
+    "Amitabh Bachchan": "https://image-cdn-ak.spotifycdn.com/image/ab6761610000f178e1ae5721ae3fcbccb237cdcc",
+    "Amitabh Bhattacharya": "https://image-cdn-ak.spotifycdn.com/image/ab6761610000f17806f04f40ecb8ca92cb714908",
+    "Anandi Joshi": "https://image-cdn-ak.spotifycdn.com/image/ab6761610000f178bcf87849f227c0010e35dd4e",
+    "Anu Malik": "https://image-cdn-ak.spotifycdn.com/image/ab6761610000f178d7e0f6a3b721c781859ce6bc",
+    "Anuradha Paudwal": "https://image-cdn-ak.spotifycdn.com/image/ab6761610000f1789c22e0ff8c09b0128f67393e",
+    "Anuv Jain": "https://image-cdn-ak.spotifycdn.com/image/ab6761610000f178a837a6cb82dd949d5e1f9b53",
+    "Arijit Singh": "https://image-cdn-ak.spotifycdn.com/image/ab6761610000f178adfb0b2df04b77e43b5f7375",
+    "Asees Kaur": "https://image-cdn-fa.spotifycdn.com/image/ab6761610000f178c907b6b1feb4d6b09a3fbde1",
+    "Asha Bhosle": "https://image-cdn-ak.spotifycdn.com/image/ab6761610000f1787c6855a92b408b6f82f3e6d1",
+    "Atif Aslam": "https://image-cdn-ak.spotifycdn.com/image/ab6761610000f178c40600e02356cc86f0debe84",
 
-    "Anuv Jain": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e0225fa2d19b2363a9520a34409",
-    "Asha Bhosle": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84971313bd19d2897dcb9949f5",
-    "Arijit Singh": "https://image-cdn-ak.spotifycdn.com/image/ab6761610000f1788b33a950ff6e35252c74a4e1",
-    "Shreya Ghoshal": "https://image-cdn-ak.spotifycdn.com/image/ab6761610000f1788b33a950ff6e35252c74a4e1",
-
-    "Name": "Artist URL",
-    // add more here ↑ (comma after every line except the last)
-}; ``
+};
