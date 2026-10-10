@@ -303,6 +303,15 @@
             filter: brightness(0) invert(1);
         }
 
+        .title-left span img.artist-title-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 4px;
+            object-fit: cover;
+            filter: none;
+            /* remove the white tint used for icons */
+        }
+
         .sort-icons img {
             width: 22px;
             height: 22px;
@@ -2871,7 +2880,7 @@
                 <div class="section-title">
                     <div class="title-left">
                         <span class="folder-title-row">
-                            <img src="svg/headphone-alt.svg" alt="headphone">
+                            <img src="svg/headphone-alt.svg" alt="headphone" id="folderTitleIcon">
                             <span id="currentFolderName">Songs</span>
                             <img src="svg/cog.svg" id="folderSettingsBtn" class="folder-settings-btn" alt="Settings">
                         </span>
@@ -4358,6 +4367,13 @@
             }
 
             currentFolder = folder;
+            // reset title icon to the normal headphone (artist folders change it below)
+            const titleIcon = document.getElementById('folderTitleIcon');
+            if (titleIcon) {
+                titleIcon.onerror = null;
+                titleIcon.src = 'svg/headphone-alt.svg';
+                titleIcon.classList.remove('artist-title-img');
+            }
 
             // Cog icon only for user-created folders
             const cogBtn = document.getElementById('folderSettingsBtn');
@@ -4460,7 +4476,17 @@
                 foldersView.style.display = 'none';
                 songsView.style.display = 'block';
                 backBtn.style.display = 'flex';
-                currentFolderName.innerText = folder.name;
+                // artist picture instead of the headphone icon
+                if (titleIcon) {
+                    titleIcon.classList.add('artist-title-img');
+                    titleIcon.onerror = () => {
+                        titleIcon.onerror = null;
+                        titleIcon.src = folder.fallbackCover || 'logo.png';
+                    };
+                    titleIcon.src = folder.folderCover;
+                }
+                // name + number of songs
+                currentFolderName.innerHTML = `${escapeHtml(folder.name)} <span style="font-size:0.7em; color:#999; position:relative; top:3px;">(${folder.songs.length})</span>`;
                 try { history.pushState(null, '', '#' + encodeURIComponent(folder.name)); } catch (e) { }
                 sessionStorage.setItem('currentFolderName', folder.name);
 
