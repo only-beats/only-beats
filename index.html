@@ -3121,7 +3121,8 @@
         const FOLDER_SECTIONS = [
             { title: "Your Folder", folderIds: [0], includeCustom: true },
             { title: "Mix Folder", folderIds: [1, 4, 10, 3, 2, 5, 6, 7, 8, 9, 11] },
-            { title: "Artist", folderIds: [], autoArtists: true }
+            { title: "Artist", folderIds: [], autoArtists: "AM" },
+            { title: "Artist", folderIds: [], autoArtists: "NZ", noHeader: true }
         ];
 
         // ============ AUTO ARTIST FOLDERS ============
@@ -3842,9 +3843,9 @@
                 }
             }
         }
-
         function renderFolders(folders) {
             foldersView.innerHTML = '';
+            window._artistNZSearch = null;    // ← NEW
 
             FOLDER_SECTIONS.forEach(section => {
                 let sectionFolders;
@@ -3864,7 +3865,11 @@
 
                 // Don't skip the section if it has no folders but SHOULD show the "+" card
                 if (section.autoArtists) {
-                    sectionFolders = artistFoldersList;
+                    sectionFolders = artistFoldersList.filter(f => {
+                        const c = f.name.trim().charAt(0).toUpperCase();
+                        const isNtoZ = c >= 'N' && c <= 'Z';
+                        return section.autoArtists === 'NZ' ? isNtoZ : !isNtoZ;
+                    });
                 }
                 if (sectionFolders.length === 0 && !section.includeCustom) return;
 
@@ -3891,7 +3896,7 @@
                 // 🔢 Folder / artist count
                 const countEl = document.createElement('span');
                 countEl.className = 'section-count';
-                countEl.textContent = `(${sectionFolders.length})`;
+                countEl.textContent = `(${section.autoArtists ? artistFoldersList.length : sectionFolders.length})`;
                 headerEl.appendChild(countEl);
                 headerEl.appendChild(toggleBtn);
 
@@ -3914,7 +3919,10 @@
                 searchWrap.appendChild(clearBtn);
                 headerEl.appendChild(searchWrap);
 
-                sectionEl.appendChild(headerEl);
+                if (!section.noHeader) sectionEl.appendChild(headerEl);
+
+                // keep the two artist rows close together
+                if (section.autoArtists === 'AM') sectionEl.style.marginBottom = '12px';
 
                 // ── Toggle search box visibility when icon is clicked ──
                 toggleBtn.addEventListener('click', () => {
@@ -4125,19 +4133,33 @@
                 // Initial paint
                 renderRowCards(sectionFolders);
 
+                // the N-Z row follows the single Artist search box
+                if (section.autoArtists === 'NZ') {
+                    window._artistNZSearch = (q) => {
+                        const list = q ? sectionFolders.filter(f => f.name.toLowerCase().includes(q)) : sectionFolders;
+                        rowWrapper.style.display = (q && list.length === 0) ? 'none' : '';
+                        renderRowCards(list);
+                        return list.length;          // ← NEW: tells the first row how many matched
+                    };
+                }
+
                 // ── Search behaviour ──
                 function applySearch() {
                     const q = searchIn.value.toLowerCase().trim();
-                    if (q === '') {
-                        clearBtn.classList.remove('visible');
-                        renderRowCards(sectionFolders);
-                    } else {
-                        clearBtn.classList.add('visible');
-                        const filtered = sectionFolders.filter(f =>
-                            f.name.toLowerCase().includes(q)
-                        );
-                        renderRowCards(filtered);
+                    const filtered = q === '' ? sectionFolders
+                        : sectionFolders.filter(f => f.name.toLowerCase().includes(q));
+
+                    clearBtn.classList.toggle('visible', q !== '');
+
+                    // Artist rows: hide this row if it has 0 matches but the N-Z row has some
+                    let hideThisRow = false;
+                    if (section.autoArtists === 'AM' && window._artistNZSearch) {
+                        const nzCount = window._artistNZSearch(q);
+                        hideThisRow = q !== '' && filtered.length === 0 && nzCount > 0;
                     }
+                    rowWrapper.style.display = hideThisRow ? 'none' : '';
+
+                    renderRowCards(filtered);
                 }
 
                 searchIn.addEventListener('input', applySearch);
