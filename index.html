@@ -2254,6 +2254,14 @@
             display: block;
         }
 
+        .section-count {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1DB954;
+            margin-left: -2px;
+            flex-shrink: 0;
+        }
+
         .section-search-toggle:hover,
         .section-search-toggle:active {
             opacity: 1;
@@ -3103,8 +3111,63 @@
         const FOLDER_SECTIONS = [
             { title: "Your Folder", folderIds: [0], includeCustom: true },
             { title: "Mix Folder", folderIds: [1, 4, 10, 3, 2, 5, 6, 7, 8, 9, 11] },
-            { title: "Artist", folderIds: [12, 13] }
+            { title: "Artist", folderIds: [], autoArtists: true }
         ];
+
+        // ============ AUTO ARTIST FOLDERS ============
+        const ARTIST_IMAGE_FOLDER = 'artists/';
+        const ARTIST_IMAGE_EXT = '.png';
+        const ARTIST_MIN_SONGS = 3;
+        const ARTIST_IMAGES = {
+            "anuv jain": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e0225fa2d19b2363a9520a34409",
+            "asha bhosle": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84971313bd19d2897dcb9949f5",
+            "arijit singh": "PASTE_LINK_HERE",
+            "shreya ghoshal": "PASTE_LINK_HERE"
+            // add more like this ↑ (don't forget the comma after each line except the last)
+        };
+        let artistFoldersList = [];
+
+        function artistSlug(name) {
+            return name.toLowerCase().trim()
+                .replace(/[^a-z0-9\u0900-\u097F]+/g, '-')
+                .replace(/^-+|-+$/g, '');
+        }
+
+        function buildArtistFolders() {
+            const map = new Map();
+            allSongsWithFolder.forEach(song => {
+                if (!song.artist || !song.url) return;
+                song.artist.split(',').forEach(raw => {
+                    const name = raw.trim();
+                    if (!name) return;
+                    const key = name.toLowerCase();
+                    if (!map.has(key)) map.set(key, { name, songs: [], urls: new Set() });
+                    const entry = map.get(key);
+                    if (entry.urls.has(song.url)) return;
+                    entry.urls.add(song.url);
+                    entry.songs.push(song);
+                });
+            });
+
+            const taken = new Set(foldersList.map(f => f.name.toLowerCase()));
+            let nextId = 1000;
+            artistFoldersList = [...map.values()]
+                .filter(a => a.songs.length >= ARTIST_MIN_SONGS)
+                .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }))
+                .map(a => ({
+                    id: nextId++,
+                    name: a.name,
+                    isArtistFolder: true,
+                    songs: a.songs,
+                    folderCover: ARTIST_IMAGES[a.name.toLowerCase()] || a.songs[0].cover_url || 'svg/folder.svg',
+                    fallbackCover: a.songs[0].cover_url || 'svg/folder.svg'
+                }));
+
+            foldersList = foldersList.filter(f => !f.isArtistFolder);
+            artistFoldersList.forEach(f => {
+                if (!taken.has(f.name.toLowerCase())) foldersList.push(f);
+            });
+        }
 
         // ============ CUSTOM FOLDERS (user-created) ============
         const CUSTOM_FOLDERS_KEY = 'onlyBeatsCustomFolders';
@@ -3664,7 +3727,8 @@
                         // so the song-art covers appear once the data is available.
                         const afterIndexBuilt = () => {
                             buildSearchIndex().then(() => {
-                                renderFolders(foldersList);   // 👈 repaint with song covers
+                                buildArtistFolders();        // ← NEW
+                                renderFolders(foldersList);
                             });
                         };
 
@@ -3707,6 +3771,7 @@
             allSongsWithFolder = [];
 
             for (const folder of foldersList) {
+                if (!folder.songsFile || folder.isArtistFolder) continue;   // ← NEW
                 try {
                     const fileContent = await fetchSongFile(folder.songsFile);
 
@@ -3762,6 +3827,9 @@
                 }
 
                 // Don't skip the section if it has no folders but SHOULD show the "+" card
+                if (section.autoArtists) {
+                    sectionFolders = artistFoldersList;
+                }
                 if (sectionFolders.length === 0 && !section.includeCustom) return;
 
                 const sectionEl = document.createElement('div');
@@ -3782,6 +3850,13 @@
                 toggleBtn.className = 'section-search-toggle';
                 toggleBtn.setAttribute('aria-label', 'Search in ' + section.title);
                 toggleBtn.innerHTML = '<img src="svg/folder-search.svg" alt="Search">';
+                headerEl.appendChild(toggleBtn);
+
+                // 🔢 Folder / artist count
+                const countEl = document.createElement('span');
+                countEl.className = 'section-count';
+                countEl.textContent = `(${sectionFolders.length})`;
+                headerEl.appendChild(countEl);
                 headerEl.appendChild(toggleBtn);
 
                 // Search box (hidden by default)
@@ -3917,11 +3992,13 @@
                             const useStaticCover =
                                 folder.isLikedFolder ||
                                 folder.id === 1 ||
+                                folder.isArtistFolder ||
                                 artistFolderIds.includes(folder.id);
 
                             if (useStaticCover) {
                                 const folderImage = folder.folderCover || 'svg/folder.svg';
-                                coverHtml = `<img class="folder-static-cover" src="${folderImage}" alt="${folder.name}" onerror="this.src='svg/folder.svg'">`;
+                                const fb = folder.fallbackCover || 'svg/folder.svg';
+                                coverHtml = `<img class="folder-static-cover" src="${folderImage}" alt="${escapeHtml(folder.name)}" data-fallback="${fb}" onerror="this.onerror=null;this.src=this.dataset.fallback">`;
                             } else {
                                 let folderSongs;
 
@@ -4317,6 +4394,27 @@
                 } else {
                     renderSongs(allSongs, false);
                 }
+                return;
+            }
+
+            if (folder.isArtistFolder) {
+                searchResultsView.style.display = 'none';
+                foldersView.style.display = 'none';
+                songsView.style.display = 'block';
+                backBtn.style.display = 'flex';
+                currentFolderName.innerText = folder.name;
+                try { history.pushState(null, '', '#' + encodeURIComponent(folder.name)); } catch (e) { }
+                sessionStorage.setItem('currentFolderName', folder.name);
+
+                allSongs = folder.songs.map((song, index) => ({
+                    ...song,
+                    id: song.id || index,
+                    cover_url: song.cover_url || song.cover || 'logo.png',
+                    lyricsUrl: song.lyricsUrl || ''
+                }));
+                currentSongIndex = -1;
+                renderSongs(allSongs, false);
+                showToast(`${allSongs.length} songs loaded`, 2200);
                 return;
             }
 
