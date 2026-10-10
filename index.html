@@ -807,6 +807,16 @@
             text-overflow: ellipsis;
         }
 
+        .artist-link {
+            cursor: pointer;
+        }
+
+        .artist-link:hover,
+        .artist-link:active {
+            color: #1DB954;
+            text-decoration: underline;
+        }
+
         .folder-badge {
             font-size: 10px;
             color: #1DB954;
@@ -3078,7 +3088,7 @@
     <div id="toastMsg" class="toast-msg"></div>
 
     <audio id="audioPlayer"></audio>
-
+    <script src="Artist.js"></script> <!-- ← NEW -->
     <script>
 
 
@@ -3115,18 +3125,16 @@
         ];
 
         // ============ AUTO ARTIST FOLDERS ============
-        const ARTIST_IMAGE_FOLDER = 'artists/';
-        const ARTIST_IMAGE_EXT = '.png';
-        const ARTIST_MIN_SONGS = 3;
-        const ARTIST_IMAGES = {
-            "anuv jain": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e0225fa2d19b2363a9520a34409",
-            "asha bhosle": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84971313bd19d2897dcb9949f5",
-            "arijit singh": "PASTE_LINK_HERE",
-            "shreya ghoshal": "PASTE_LINK_HERE"
-            // add more like this ↑ (don't forget the comma after each line except the last)
-        };
-        let artistFoldersList = [];
 
+        const ARTIST_MIN_SONGS = 3;
+
+        const ARTIST_INFO = {};
+        const _artistImgs = (typeof ARTIST_IMAGES !== 'undefined') ? ARTIST_IMAGES : {};
+        Object.keys(_artistImgs).forEach(k => {
+            ARTIST_INFO[k.trim().toLowerCase()] = { name: k.trim(), img: _artistImgs[k] };
+        });
+
+        let artistFoldersList = [];
         function artistSlug(name) {
             return name.toLowerCase().trim()
                 .replace(/[^a-z0-9\u0900-\u097F]+/g, '-')
@@ -3156,10 +3164,13 @@
                 .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }))
                 .map(a => ({
                     id: nextId++,
-                    name: a.name,
+                    name: (ARTIST_INFO[a.name.toLowerCase()] || {}).name || a.name,
                     isArtistFolder: true,
                     songs: a.songs,
-                    folderCover: ARTIST_IMAGES[a.name.toLowerCase()] || a.songs[0].cover_url || 'svg/folder.svg',
+                    folderCover: (() => {
+                        const info = ARTIST_INFO[a.name.toLowerCase()];
+                        return (info && info.img && info.img.startsWith('http')) ? info.img : (a.songs[0].cover_url || 'svg/folder.svg');
+                    })(),
                     fallbackCover: a.songs[0].cover_url || 'svg/folder.svg'
                 }));
 
@@ -3168,6 +3179,31 @@
                 if (!taken.has(f.name.toLowerCase())) foldersList.push(f);
             });
         }
+        // Turns "A, B" into clickable names
+        function artistLinksHtml(artistStr) {
+            if (!artistStr) return '';
+            return artistStr.split(',')
+                .map(n => n.trim())
+                .filter(Boolean)
+                .map(n => `<span class="artist-link" data-artist="${encodeURIComponent(n)}">${escapeHtml(n)}</span>`)
+                .join(', ');
+        }
+
+        // Click on an artist name -> open that artist's folder
+        document.addEventListener('click', function (e) {
+            const el = e.target.closest('.artist-link');
+            if (!el) return;
+            e.stopPropagation();            // don't start playing the song
+            const name = decodeURIComponent(el.dataset.artist).toLowerCase();
+            const folder = artistFoldersList.find(f => f.name.toLowerCase() === name);
+            if (folder) {
+                const m = document.getElementById('songModal');
+                if (m) m.classList.remove('active');     // close the dialog
+                openFolder(folder);
+            } else {
+                showToast('No artist folder yet', 1500);
+            }
+        }, true);
 
         // ============ CUSTOM FOLDERS (user-created) ============
         const CUSTOM_FOLDERS_KEY = 'onlyBeatsCustomFolders';
@@ -4988,7 +5024,7 @@
             // Update modal content
             modalCover.src = song.cover_url || 'logo.png';
             modalTitle.innerText = song.title;
-            modalArtist.innerText = song.artist;
+            modalArtist.innerHTML = artistLinksHtml(song.artist);
             modalAlbum.innerText = song.album || currentFolder?.name || 'BY - DHANANJAY PATIL';
             currentModalSongUrl = song.url;
 
@@ -5300,7 +5336,7 @@
                 const s = allSongs[currentSongIndex];
                 modalCover.src = s.cover_url || 'logo.png';
                 modalTitle.innerText = s.title;
-                modalArtist.innerText = s.artist;
+                modalArtist.innerHTML = artistLinksHtml(s.artist);
                 modalAlbum.innerText = s.album || currentFolder?.name || 'BY - DHANANJAY PATIL';
                 currentModalSongUrl = s.url;
                 copyUrlIcon.style.display = 'inline-block';
@@ -5310,7 +5346,7 @@
             } else if (currentPlayingSong && currentPlayingSong.title !== 'Only-Beats') {
                 modalCover.src = currentPlayingSong.cover || 'logo.png';
                 modalTitle.innerText = currentPlayingSong.title;
-                modalArtist.innerText = currentPlayingSong.artist;
+                modalArtist.innerHTML = artistLinksHtml(currentPlayingSong.artist);
                 modalAlbum.innerText = currentFolder?.name || 'Only-Beats';
                 currentModalSongUrl = currentPlayingSong.url;
                 copyUrlIcon.style.display = 'inline-block';
