@@ -4490,6 +4490,11 @@
                 try { history.pushState(null, '', '#' + encodeURIComponent(folder.name)); } catch (e) { }
                 sessionStorage.setItem('currentFolderName', folder.name);
 
+                // start from the top of the page
+                const mainBox = document.querySelector('.main');
+                if (mainBox) mainBox.scrollTop = 0;
+                window.scrollTo(0, 0);
+
                 allSongs = folder.songs.map((song, index) => ({
                     ...song,
                     id: song.id || index,
