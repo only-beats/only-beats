@@ -4360,7 +4360,7 @@
                     cover: savedSongCover,
                     currentTime: savedCurrentTime
                 };
-                audio.pause();
+                if (!folder.isArtistFolder) audio.pause();   // ← artist folders keep playing
             } else {
                 wasPlayingBeforeFolderChange = false;
                 currentPlayingSong = null;
@@ -4503,11 +4503,26 @@
                 }));
                 currentSongIndex = -1;
                 renderSongs(allSongs, false);
+
+                // 🔗 If a song is playing, find it in this artist's list so "next song" keeps working
+                if (wasPlayingBeforeFolderChange && currentPlayingSong) {
+                    const playingIdx = allSongs.findIndex(s =>
+                        s.url === currentPlayingSong.url ||
+                        (s.title === currentPlayingSong.title && s.artist === currentPlayingSong.artist)
+                    );
+                    if (playingIdx >= 0) {
+                        currentSongIndex = playingIdx;
+                        currentPlayingSong.url = allSongs[playingIdx].url;   // keep the real song link
+                        updateActiveHighlight();                              // highlight the playing row
+                        if (typeof preloadNextSong === 'function') preloadNextSong();
+                    }
+                }
+
                 showToast(`${allSongs.length} songs loaded`, 2200);
                 return;
             }
 
-            sessionStorage.setItem('currentFolderName', folder.name);   // ✅ new
+            sessionStorage.setItem('currentFolderName', folder.name);   // ✅ new 
 
             // showToast(`Loading ${folder.name}...`, 800);
 
