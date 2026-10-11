@@ -5125,6 +5125,7 @@
         }
 
         function pauseCurrentSong() {
+            pendingAutoPlay = false;      // ← NEW
             audio.pause();
             updatePlayPauseIcons(false);
             if (currentPlayingSong) {
@@ -5267,8 +5268,36 @@
             }
         });
 
+        // ===== LOCK SCREEN FIXES =====
+        let pendingAutoPlay = false;
+        let lastEndedAt = 0;
+
+        function tryAutoPlay() {
+            if (pendingAutoPlay && audio.paused) {
+                audio.play().catch(() => { });
+            }
+        }
+        // events (not timers) retry the play, so it works even when the screen is locked
+        ['loadedmetadata', 'loadeddata', 'canplay', 'canplaythrough', 'stalled', 'suspend']
+            .forEach(ev => audio.addEventListener(ev, tryAutoPlay));
+        document.addEventListener('visibilitychange', tryAutoPlay);
+
+        audio.addEventListener('playing', () => {
+            pendingAutoPlay = false;
+            isPlayingNext = false;
+            if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
+        });
+        audio.addEventListener('pause', () => {
+            // the pause event fires just before "ended" — don't mark paused then
+            if ('mediaSession' in navigator && !audio.ended && !pendingAutoPlay && !isPlayingNext) {
+                navigator.mediaSession.playbackState = 'paused';
+            }
+        });
+
         audio.addEventListener('ended', () => {
-            if (isPlayingNext) return;
+            const _now = Date.now();
+            if (_now - lastEndedAt < 1500) return;   // ignore duplicate ended events only
+            lastEndedAt = _now;
             isPlayingNext = true;
 
             if (allSongs.length > 0 && currentSongIndex >= 0) {
@@ -5299,8 +5328,11 @@
                 document.getElementById('playerArtist').innerText = nextSong.artist;
                 document.getElementById('playerCover').src = nextSong.cover_url || 'logo.png';
 
-                audio.src = srcToUse;                         // <-- use srcToUse instead of nextSong.url
+                audio.src = srcToUse;
+                pendingAutoPlay = true;                        // ← NEW: "this song must start"
                 audio.play().catch(e => console.log('Play error:', e));
+                if (typeof updateLockscreenInfo === 'function') updateLockscreenInfo(nextSong);   // ← NEW
+                if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing'; // ← NEW
                 updatePlayPauseIcons(true);
                 updateActiveHighlight();
                 currentPlayingSong = {
@@ -5540,7 +5572,7 @@
                 }
 
                 // If audio is paused but shouldn't be, try to resume
-                if (audio.paused && currentPlayingSong && !isPlayingNext && audio.currentTime > 0 && audio.currentTime < audio.duration - 0.5) {
+                if (audio.paused && (pendingAutoPlay || (currentPlayingSong && !isPlayingNext && audio.currentTime > 0 && audio.currentTime < audio.duration - 0.5))) {
                     console.log('Keep-alive: Resuming paused audio');
                     audio.play().catch(e => console.log('Resume failed:', e));
                 }
