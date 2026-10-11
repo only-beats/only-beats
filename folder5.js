@@ -583,6 +583,15 @@ const SONGS_DATABASE = [
         "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e022399ea89cf12d2ad388bfe30",
         "url": "https://raw.githubusercontent.com/only-beats/Forever-in-Sync/main/Sur%20Niragas%20Ho.mp3",
         "lyricsUrl": "https://lrclib.net/api/search?track_name=Sur%20Niragas%20Ho&artist_name=Anandi%20Joshi%2C%20Shankar%20Mahadevan&album=Katyar%20Kaljat%20Ghusli"
+    },
+        {
+        "id": 66,
+        "title": "Phulale Re Kshan Majhe",
+        "artist": "Asha Bhosle",
+        "album": "Ritu Hirwa",
+        "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e022252fc99dbd8f377ae0e9588",
+        "url": "https://raw.githubusercontent.com/only-beats/Forever-in-Sync/main/Phulale%20Re%20Kshan%20Majhe.mp3",
+        "lyricsUrl": "https://lrclib.net/api/search?track_name=Phulale%20Re%20Kshan%20Majhe&artist_name=Asha%20Bhosle&album=Ritu%20Hirwa"
     }
 ];
 
